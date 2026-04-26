@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Airtime & Data — SmartPickup</title><link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/></head>
+<body data-page=""><div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero"><div class="page-hero-inner"><h1>📱 Airtime &amp; Data</h1><p>MTN · Airtel · Glo · 9Mobile · Instant delivery to any number</p></div></div>
+<section class="section"><div class="container" style="max-width:660px">
+  <div id="air-success" style="display:none;padding:2rem;text-align:center" class="alert alert-success">✅ <strong>Order received!</strong> Your airtime/data will be sent within 15 minutes.<br/><br/><a href="dashboard.html" class="btn btn-primary" style="margin-top:.8rem">📊 Track on Dashboard</a></div>
+  <div id="air-form" class="card" style="padding:2rem">
+    <div class="sec-title">📱 Buy Airtime or Data</div>
+    <div id="air-msg"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div class="fgroup" style="margin:0"><label class="flabel">Order Type *</label>
+        <select class="fselect" id="air_type"><option value="Airtime">Airtime</option><option value="Data">Data Bundle</option></select>
+      </div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Network *</label>
+        <select class="fselect" id="air_network"><option value="MTN">MTN</option><option value="Airtel">Airtel</option><option value="Glo">Glo</option><option value="9Mobile">9Mobile</option></select>
+      </div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Phone Number to Top Up *</label><input class="finput" id="air_number" placeholder="08012345678"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Amount / Plan *</label>
+        <select class="fselect" id="air_amount" onchange="updateAirAmount()">
+          <option value="100">Airtime ₦100</option><option value="200">Airtime ₦200</option><option value="500">Airtime ₦500</option><option value="1000">Airtime ₦1,000</option><option value="2000">Airtime ₦2,000</option><option value="5000">Airtime ₦5,000</option>
+          <option value="300">Data 500MB (MTN/Airtel) — ₦300</option><option value="500">Data 1GB — ₦500</option><option value="1000">Data 2GB — ₦1,000</option><option value="2000">Data 5GB — ₦2,000</option><option value="3500">Data 10GB — ₦3,500</option>
+        </select>
+      </div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Your WhatsApp Number *</label><input class="finput" id="air_phone" placeholder="Your contact number"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Your Name *</label><input class="finput" id="air_name" placeholder="Full name"/></div>
+    </div>
+    <div class="pay-box" style="margin-top:1rem"><div style="font-size:.8rem;color:var(--muted);margin-bottom:.3rem">Amount to Pay</div><div class="pay-amount" id="air-total">₦100</div></div>
+    <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
+      <button class="btn btn-primary btn-lg" onclick="submitAirtime(false)" style="flex:1">📋 Submit (Pay Later)</button>
+      <button class="btn btn-pay btn-lg" onclick="submitAirtime(true)" style="flex:1">💳 Pay &amp; Submit</button>
+    </div>
+    <div style="margin-top:.7rem;font-size:.75rem;color:var(--muted);text-align:center">Delivered within 15 minutes after payment · Service fee: ₦50 per transaction</div>
+  </div>
+</div></section>
+<div id="footer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+function updateAirAmount(){const v=parseInt(document.getElementById('air_amount').value)||0;document.getElementById('air-total').textContent='N'+(v+50).toLocaleString()+' (incl. ₦50 fee)';}
+async function submitAirtime(payNow){
+  const number=val('air_number'),name=val('air_name'),phone=val('air_phone'),network=val('air_network'),type=val('air_type'),plan=val('air_amount');
+  const amount=parseInt(plan)+50;
+  if(!number||!name||!phone){setAlert('air-msg','Please fill all required fields.','danger');return;}
+  const user=auth.currentUser;const data={orderType:type,network,topupNumber:number,plan,amount,name,phone};
+  const doSave=async(ref=null)=>{showLoading('Saving order...');try{await saveApplication(type+' - '+network+' '+plan,data,ref?'Paid':'Unpaid',{});hideLoading();document.getElementById('air-form').style.display='none';document.getElementById('air-success').style.display='block';openAdminWhatsApp(type+' '+network,user?user.email:phone,phone);}catch(e){hideLoading();setAlert('air-msg','Error: '+e.message,'danger');}};
+  if(payNow)payWithPaystack(amount,user?user.email:phone+'@smartpickup.ng',(r)=>doSave(r));else await doSave();
+}
+</script></body></html>

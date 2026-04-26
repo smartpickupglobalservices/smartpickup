@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sign In — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+</head>
+<body data-page="">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-head">
+      <div style="display:flex;align-items:center;justify-content:center;gap:.65rem;margin-bottom:.75rem">
+        <div style="width:38px;height:38px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="logo.png" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='🚀'"/></div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:800;color:#fff">SmartPickup Global</div>
+      </div>
+      <h2>Welcome Back</h2>
+      <p>Sign in to access your dashboard. Your account is saved in the cloud — works on any browser, any device.</p>
+    </div>
+    <div class="auth-body">
+      <div id="loginMsg" style="display:none"></div>
+      <div class="fgroup"><label class="flabel">Email Address</label><input type="email" class="finput" id="loginEmail" placeholder="your@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <div class="fgroup"><label class="flabel">Password</label><input type="password" class="finput" id="loginPass" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <div style="text-align:right;margin-bottom:1.1rem"><a onclick="doForgotPassword()" style="font-size:.79rem;color:var(--gold);cursor:pointer;font-weight:600">Forgot password?</a></div>
+      <button class="btn btn-gold btn-block btn-lg" onclick="doLogin()">🔑 Sign In</button>
+      <div class="auth-divider">need help?</div>
+      <a href="https://wa.me/2347063545065?text=I%20need%20help%20logging%20into%20SmartPickup" target="_blank" class="btn btn-wa btn-block">💬 WhatsApp Support</a>
+      <div class="auth-switch">No account? <a href="register.html">Register Free →</a></div>
+    </div>
+  </div>
+</div>
+<div id="footer"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+auth.onAuthStateChanged(user => { if (user) window.location.href = 'dashboard.html'; });
+
+async function doLogin() {
+  const email = val('loginEmail'), pass = val('loginPass');
+  const msg = document.getElementById('loginMsg');
+  if (!email || !pass) { setMsg(msg, '❌ Please enter email and password.', 'danger'); return; }
+  showLoading('Signing you in...');
+  try {
+    const cred = await auth.signInWithEmailAndPassword(email, pass);
+    const doc  = await db.collection('users').doc(cred.user.uid).get();
+    hideLoading();
+    const role = doc.exists ? (doc.data().role || 'client') : 'client';
+    showToast('✅ Welcome back!', 'success');
+    setTimeout(() => window.location.href = role === 'admin' ? 'admin.html' : 'dashboard.html', 800);
+  } catch (e) {
+    hideLoading();
+    const errs = {
+      'auth/user-not-found':          '❌ No account found with this email. <a href="register.html">Register free →</a>',
+      'auth/wrong-password':          '❌ Incorrect password. Try again or use forgot password.',
+      'auth/invalid-email':           '❌ Please enter a valid email address.',
+      'auth/configuration-not-found': '❌ Firebase Authentication is not enabled. Contact admin on <a href="https://wa.me/2347063545065">WhatsApp</a>.',
+      'auth/network-request-failed':  '❌ No internet connection. Please check your network.',
+      'auth/too-many-requests':       '❌ Too many failed attempts. Wait a few minutes and try again.',
+      'auth/invalid-credential':      '❌ Incorrect email or password. Please try again.'
+    };
+    setMsg(msg, errs[e.code] || '❌ Login failed. Please check your details.', 'danger');
+  }
+}
+
+async function doForgotPassword() {
+  const email = val('loginEmail');
+  const msg = document.getElementById('loginMsg');
+  if (!email || !email.includes('@')) { setMsg(msg,'❌ Enter your email address above first.','danger'); return; }
+  showLoading('Sending reset email...');
+  try {
+    await auth.sendPasswordResetEmail(email);
+    hideLoading();
+    setMsg(msg, '✅ Password reset email sent to ' + email + '. Check inbox and spam folder.', 'success');
+  } catch(e) { hideLoading(); setMsg(msg, '❌ Could not send reset email. Contact us on WhatsApp.', 'danger'); }
+}
+
+function setMsg(el, html, type) {
+  if (!el) return;
+  el.className = 'alert alert-' + type;
+  el.innerHTML = html;
+  el.style.display = 'block';
+}
+</script>
+</body>
+</html>

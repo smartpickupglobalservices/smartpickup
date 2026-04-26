@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Online Registration & Job Opportunities — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+</head>
+<body data-page="">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+
+<div class="page-hero" style="background:linear-gradient(135deg,#0a2540,#1a4a7a)">
+  <div class="page-hero-inner">
+    <div class="badge-row"><span class="h-badge hb-gold">💼 Online Registration</span><span class="h-badge hb-green">✅ Verified Opportunities</span></div>
+    <h1>Online Registration & Job Opportunities</h1>
+    <p>Government recruitment, agency jobs, scholarships and programmes — we handle your application end to end.</p>
+    <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
+      <a href="https://wa.me/2347063545065?text=I%20need%20help%20with%20online%20recruitment%20registration" target="_blank" class="btn btn-wa btn-lg">💬 Contact Us on WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+<div class="container">
+
+  <!-- How it works -->
+  <div style="text-align:center;margin-bottom:2.5rem">
+    <div class="sec-badge">Our Process</div>
+    <h2 class="sec-title">How It Works</h2>
+  </div>
+  <div class="grid-3" style="margin-bottom:3rem">
+    <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);padding:1.5rem;text-align:center;box-shadow:var(--shadow)">
+      <div style="font-size:2.2rem;margin-bottom:.7rem">📋</div>
+      <div style="font-weight:800;color:var(--primary);margin-bottom:.4rem">1. Browse Opportunities</div>
+      <div style="font-size:.83rem;color:var(--muted)">See available government and private sector recruitments below. New ones are posted regularly.</div>
+    </div>
+    <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);padding:1.5rem;text-align:center;box-shadow:var(--shadow)">
+      <div style="font-size:2.2rem;margin-bottom:.7rem">💬</div>
+      <div style="font-weight:800;color:var(--primary);margin-bottom:.4rem">2. Contact Us</div>
+      <div style="font-size:.83rem;color:var(--muted)">WhatsApp us with the opportunity you want. We guide you through all requirements and documents needed.</div>
+    </div>
+    <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);padding:1.5rem;text-align:center;box-shadow:var(--shadow)">
+      <div style="font-size:2.2rem;margin-bottom:.7rem">✅</div>
+      <div style="font-weight:800;color:var(--primary);margin-bottom:.4rem">3. We Register You</div>
+      <div style="font-size:.83rem;color:var(--muted)">We complete your registration accurately and send you confirmation. Track progress on your dashboard.</div>
+    </div>
+  </div>
+
+  <!-- Interest Form -->
+  <div style="background:linear-gradient(135deg,var(--primary),#1a4a7a);border-radius:var(--rl);padding:2rem;margin-bottom:3rem;color:#fff">
+    <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:.4rem">📩 Register Your Interest</div>
+    <div style="font-size:.84rem;color:rgba(255,255,255,.72);margin-bottom:1.4rem">Submit your details and we'll notify you whenever new recruitment opportunities are announced.</div>
+    <div id="interest-msg"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div class="fgroup" style="margin:0"><label class="flabel" style="color:rgba(255,255,255,.8)">Full Name <span class="req">*</span></label><input class="finput" id="int_name" placeholder="Your full name" style="background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3);"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel" style="color:rgba(255,255,255,.8)">WhatsApp Number <span class="req">*</span></label><input type="tel" class="finput" id="int_phone" placeholder="08012345678" oninput="this.value=this.value.replace(/[^0-9+]/g,'')" style="background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3);"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel" style="color:rgba(255,255,255,.8)">Email</label><input type="email" class="finput" id="int_email" placeholder="your@email.com" style="background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3);"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel" style="color:rgba(255,255,255,.8)">State <span class="req">*</span></label>
+        <select class="fselect" id="int_state" style="background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3);">
+          <option value="">— State —</option><option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option><option>Anambra</option><option>Bauchi</option><option>Bayelsa</option><option>Benue</option><option>Borno</option><option>Cross River</option><option>Delta</option><option>Ebonyi</option><option>Edo</option><option>Ekiti</option><option>Enugu</option><option>FCT Abuja</option><option>Gombe</option><option>Imo</option><option>Jigawa</option><option>Kaduna</option><option>Kano</option><option>Katsina</option><option>Kebbi</option><option>Kogi</option><option>Kwara</option><option>Lagos</option><option>Nasarawa</option><option>Niger</option><option>Ogun</option><option>Ondo</option><option>Osun</option><option>Oyo</option><option>Plateau</option><option>Rivers</option><option>Sokoto</option><option>Taraba</option><option>Yobe</option><option>Zamfara</option>
+        </select>
+      </div>
+    </div>
+    <div class="fgroup" style="margin-top:.8rem"><label class="flabel" style="color:rgba(255,255,255,.8)">Preferred Job Sectors (optional)</label><input class="finput" id="int_pref" placeholder="e.g. Teaching, Banking, Civil Service, Health" style="background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3);"/></div>
+    <button class="btn btn-gold btn-lg" style="margin-top:1.2rem" onclick="submitInterest()">📩 Register My Interest</button>
+  </div>
+
+  <!-- Live Job Listings -->
+  <div style="text-align:center;margin-bottom:1.8rem">
+    <div class="sec-badge">Current Listings</div>
+    <h2 class="sec-title">Available Opportunities</h2>
+    <p class="sec-sub">Posted and verified by SmartPickup Global Services</p>
+  </div>
+  <div id="jobs-container">
+    <div style="text-align:center;padding:3rem;color:var(--muted)"><div style="font-size:2.5rem;margin-bottom:.5rem">💼</div>Loading opportunities...</div>
+  </div>
+
+  <!-- Notify CTA -->
+  <div style="background:var(--light);border-radius:var(--rl);border:1px solid var(--border);padding:2rem;text-align:center;margin-top:2.5rem">
+    <div style="font-size:2rem;margin-bottom:.6rem">🔔</div>
+    <div style="font-weight:800;font-size:1.05rem;color:var(--primary);margin-bottom:.4rem">Don't Miss New Recruitments</div>
+    <div style="font-size:.84rem;color:var(--muted);margin-bottom:1.2rem">Save our WhatsApp contact to get instant alerts whenever new opportunities are posted.</div>
+    <a href="https://wa.me/2347063545065?text=Please%20add%20me%20to%20your%20recruitment%20alert%20list" target="_blank" class="btn btn-wa btn-lg">💬 Join Recruitment Alert List</a>
+  </div>
+</div>
+</section>
+
+<div id="footer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+async function loadPublicJobs() {
+  try {
+    const snap = await db.collection('job_postings').where('active','==',true).get();
+    const container = document.getElementById('jobs-container');
+    if (snap.empty) {
+      container.innerHTML = `<div style="text-align:center;padding:3rem;background:#fff;border-radius:var(--rl);border:1px solid var(--border)">
+        <div style="font-size:2.5rem;margin-bottom:.7rem">📭</div>
+        <div style="font-weight:700;color:var(--primary);margin-bottom:.3rem">No openings right now</div>
+        <div style="font-size:.84rem;color:var(--muted);margin-bottom:1.2rem">Register your interest above and we'll notify you immediately when new opportunities are posted.</div>
+        <a href="https://wa.me/2347063545065?text=I%20want%20to%20be%20notified%20of%20new%20job%20opportunities" target="_blank" class="btn btn-wa">💬 Get Notified on WhatsApp</a>
+      </div>`;
+      return;
+    }
+    const catIcons = {'Government Employment':'🏛️','Private Sector':'🏢','NGO / International':'🌍','Military / Police':'🎖️','Federal Agency':'🇳🇬','State Agency':'📋','Graduate Programme':'🎓','Scholarship':'📚','Other':'💼'};
+    let html = '<div style="display:grid;gap:1.2rem">';
+    const jobs = [];
+    snap.forEach(doc => jobs.push({id:doc.id,...doc.data()}));
+    jobs.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    jobs.forEach(d => {
+      const icon = catIcons[d.category] || '💼';
+      const deadline = d.deadline ? `<span style="color:#c0392b;font-weight:700">⏰ Deadline: ${d.deadline}</span>` : '';
+      const daysLeft = d.deadline ? Math.ceil((new Date(d.deadline)-new Date())/(1000*60*60*24)) : null;
+      const urgentBadge = daysLeft !== null && daysLeft <= 7 ? `<span style="background:#e74c3c;color:#fff;border-radius:20px;font-size:.7rem;font-weight:700;padding:.18rem .55rem;margin-left:.4rem">CLOSING SOON</span>` : '';
+      html += `<div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden">
+        <div style="background:linear-gradient(135deg,var(--primary),#1a4a7a);padding:1rem 1.4rem;display:flex;align-items:center;gap:.8rem">
+          <div style="font-size:2rem">${icon}</div>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#fff">${d.title}${urgentBadge}</div>
+            <div style="font-size:.76rem;color:rgba(255,255,255,.72)">${d.org} · ${d.category}</div>
+          </div>
+        </div>
+        <div style="padding:1.2rem 1.4rem">
+          <div style="font-size:.86rem;color:var(--text);line-height:1.65;margin-bottom:.9rem;white-space:pre-line">${d.desc}</div>
+          <div style="display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem">
+            ${deadline}
+            ${d.fee?`<span style="color:var(--gold);font-weight:700;font-size:.82rem">💰 Our fee: ${d.fee}</span>`:''}
+          </div>
+          <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+            <a href="https://wa.me/2347063545065?text=I%20want%20to%20apply%20for%20${encodeURIComponent(d.title)}%20through%20SmartPickup" target="_blank" class="btn btn-wa">💬 Apply via WhatsApp</a>
+            ${d.link?`<a href="${d.link}" target="_blank" class="btn btn-outline" style="font-size:.82rem">🔗 Official Link</a>`:''}
+          </div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+    container.innerHTML = html;
+  } catch(e) { document.getElementById('jobs-container').innerHTML = '<div style="text-align:center;padding:2rem;color:#c0392b">Error loading opportunities. Please refresh.</div>'; }
+}
+
+async function submitInterest() {
+  const name=val('int_name'),phone=val('int_phone'),state=val('int_state');
+  if(!name||!phone||!state){setAlert('interest-msg','❌ Please fill name, phone and state.','danger');return;}
+  showLoading('Saving your interest...');
+  try {
+    await db.collection('recruitment_interest').add({
+      name,phone,email:val('int_email'),state,preferences:val('int_pref'),
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    hideLoading();
+    document.getElementById('interest-msg').innerHTML='<div style="background:rgba(255,255,255,.15);color:#fff;padding:.8rem;border-radius:var(--r);margin-bottom:.8rem;font-weight:600">✅ Registered! We will contact you on WhatsApp when new opportunities are posted. Thank you, '+name+'!</div>';
+    ['int_name','int_phone','int_email','int_pref'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+    const waMsg=encodeURIComponent('Hello SmartPickup, I just registered interest in recruitment opportunities. My name is '+name+' and number is '+phone+'.');
+    setTimeout(()=>window.open('https://wa.me/2347063545065?text='+waMsg,'_blank'),1000);
+  }catch(e){hideLoading();document.getElementById('interest-msg').innerHTML='<div style="color:#f88;font-size:.84rem">Error: '+e.message+'</div>';}
+}
+
+loadPublicJobs();
+</script>
+</body></html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>NIN Reprinting — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+</head>
+<body data-page="nin">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero" style="background:linear-gradient(135deg,#0a3d62,#1565c0)">
+  <div class="page-hero-inner">
+    <div class="badge-row"><span class="h-badge hb-gold">🪪 NIN Reprinting</span><span class="h-badge hb-white">NIMC Official</span></div>
+    <h1>NIN Slip Reprinting Service</h1>
+    <p>Lost or damaged National ID slip? Official reprint via NIMC. Choose Basic, Standard, Improved, or Premium.</p>
+  </div>
+</div>
+<div style="background:var(--light);padding:2.5rem 5% 4rem">
+  <div style="max-width:700px;margin:0 auto">
+    <!-- Plans -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.8rem">
+      <div onclick="selectNINPlan(this,'Basic',2000)" class="nin-plan"><div style="font-size:1.5rem;margin-bottom:.25rem">📄</div><div style="font-weight:800;font-size:.83rem">Basic</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--success)">₦2,000</div><div style="font-size:.65rem;opacity:.7;margin-top:.12rem">PDF + WhatsApp</div></div>
+      <div onclick="selectNINPlan(this,'Standard',2000)" class="nin-plan"><div style="font-size:1.5rem;margin-bottom:.25rem">📱</div><div style="font-weight:800;font-size:.83rem">Standard</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--success)">₦2,000</div><div style="font-size:.65rem;opacity:.7;margin-top:.12rem">PDF + WhatsApp</div></div>
+      <div onclick="selectNINPlan(this,'Improved',2000)" class="nin-plan"><div style="font-size:1.5rem;margin-bottom:.25rem">⚡</div><div style="font-weight:800;font-size:.83rem">Improved</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--success)">₦2,000</div><div style="font-size:.65rem;opacity:.7;margin-top:.12rem">PDF + WhatsApp</div></div>
+      <div onclick="selectNINPlan(this,'Premium',2000)" class="nin-plan" style="background:var(--primary);border-color:var(--gold)"><div style="font-size:1.5rem;margin-bottom:.25rem">👑</div><div style="font-weight:800;font-size:.83rem;color:var(--gold)">Premium</div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--gold)">₦2,000</div><div style="font-size:.65rem;color:rgba(255,255,255,.6);margin-top:.12rem">PDF + WhatsApp</div></div>
+    </div>
+    <div id="nin-plan-banner" style="display:none;background:var(--success-l);border:1.5px solid var(--success);border-radius:var(--r);padding:.72rem 1rem;margin-bottom:1.2rem;font-weight:700;color:var(--success)"></div>
+    <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);box-shadow:var(--shadow);padding:2rem">
+      <div class="contact-bar">📞 <strong>+234 706 354 5065</strong></div>
+      <div id="nin-msg" style="display:none"></div>
+      <div id="nin-success" style="display:none;text-align:center;padding:2rem">
+        <div style="font-size:3.5rem;margin-bottom:.8rem">🎉</div>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--primary)">NIN Request Submitted!</h3>
+        <p style="color:var(--muted);margin:.5rem 0 1.5rem">We will contact you within 30 minutes on WhatsApp.</p>
+        <a href="https://wa.me/2347063545065" target="_blank" class="btn btn-wa btn-lg">💬 Follow Up</a>
+      </div>
+      <div id="nin-form">
+        <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--primary);margin-bottom:.25rem">🪪 Enter Your Details</div>
+        <div style="font-size:.8rem;color:var(--muted);margin-bottom:1.1rem">Only your NIN is needed. We retrieve your NIMC record.</div>
+        <div class="fgroup">
+          <label class="flabel">NIN Number <span class="req">*</span></label>
+          <input type="text" class="finput" id="nin_number" maxlength="11" placeholder="Enter 11-digit NIN"
+            oninput="this.value=this.value.replace(/[^0-9]/g,'');const m=document.getElementById('nin-check');m.textContent=this.value.length===11?'✅ Valid NIN format':this.value.length>0?'⚠️ '+this.value.length+'/11 digits':'';m.style.color=this.value.length===11?'var(--success)':'var(--danger)';"
+            style="font-size:1.15rem;letter-spacing:.12em;font-weight:700;text-align:center"/>
+          <div id="nin-check" style="font-size:.74rem;margin-top:.28rem;font-weight:600"></div>
+        </div>
+        <div class="frow">
+          <div class="fgroup"><label class="flabel">Full Name <span class="req">*</span></label><input type="text" class="finput" id="nin_name" placeholder="Your full name"/></div>
+          <div class="fgroup"><label class="flabel">WhatsApp Number <span class="req">*</span></label><input type="tel" class="finput" id="nin_phone" placeholder="+234..."/></div>
+        </div>
+        <div class="fgroup"><label class="flabel">Email (optional — PDF delivery)</label><input type="email" class="finput" id="nin_email" placeholder="your@email.com"/></div>
+        <div class="fgroup"><label class="flabel">Upload Current Slip / ID (optional)</label><div class="file-upload"><input type="file" id="nin_doc" accept=".pdf,.jpg,.jpeg,.png"/><div class="file-upload-icon">📎</div><div class="file-upload-text">PDF, JPG, PNG</div><div class="file-preview"></div></div></div>
+        <div style="background:var(--warn-l);border-radius:var(--r);padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.81rem;color:#7a5000">
+          💳 Pay after submission: <strong>Providus · 6501187233</strong> or <strong>Opay · 7063545065</strong> — Send receipt to WhatsApp after payment.
+        </div>
+        <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+          <button class="btn btn-primary btn-lg" onclick="submitNIN(false)" style="flex:1">🪪 Submit (Pay Later)</button>
+          <button class="btn btn-pay btn-lg" onclick="submitNIN(true)" style="flex:1">💳 Pay &amp; Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="footer"></div>
+<style>
+.nin-plan { border:2px solid var(--border);background:#fff;border-radius:var(--r);padding:.9rem;text-align:center;cursor:pointer;transition:all .2s;color:var(--primary); }
+.nin-plan:hover { border-color:var(--gold); }
+.nin-plan.selected { border-color:var(--gold);background:var(--warn-l); }
+</style>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+let _ninPlan='', _ninAmt=0;
+function selectNINPlan(el,plan,amt){
+  _ninPlan=plan; _ninAmt=amt;
+  document.querySelectorAll('.nin-plan').forEach(p=>{p.classList.remove('selected');if(plan==='Premium'){p.style.background='';p.style.borderColor='';}});
+  el.classList.add('selected');
+  const b=document.getElementById('nin-plan-banner');
+  b.style.display='block'; b.textContent='✅ Selected: '+plan+' Plan — ₦'+amt.toLocaleString();
+}
+async function submitNIN(payNow){
+  // Clear any previous alerts
+  hideAlert('nin-msg');
+
+  // Validate fields
+  const nin   = val('nin_number');
+  const name  = val('nin_name');
+  const phone = val('nin_phone');
+
+  if(!nin || nin.length !== 11){
+    setAlert('nin-msg','❌ Please enter a valid 11-digit NIN number.','danger'); return;
+  }
+  if(!name){
+    setAlert('nin-msg','❌ Please enter your full name.','danger'); return;
+  }
+  if(!phone){
+    setAlert('nin-msg','❌ Please enter your WhatsApp number.','danger'); return;
+  }
+  if(!_ninPlan){
+    setAlert('nin-msg','❌ Please select a plan (Basic, Standard, Improved, or Premium).','danger'); return;
+  }
+
+  // Build a guaranteed valid email — use real email, not fallback, so dashboard can find the record
+  const user       = auth.currentUser;
+  const emailInput = val('nin_email');
+  let   email      = '';
+  if(user && user.email)         email = user.email;
+  else if(emailInput && emailInput.includes('@')) email = emailInput;
+  else email = phone.replace(/\D/g,'') + '@smartpickup.ng'; // unique per phone so dashboard can match
+
+  // ── SAVE TO FIRESTORE ──
+  async function doSave(paystackRef){
+    showLoading('Saving your request…');
+    try{
+      let fileUrl = null;
+      const fileInput = document.getElementById('nin_doc');
+      if(fileInput && fileInput.files && fileInput.files.length > 0){
+        fileUrl = await uploadFile(fileInput.files[0], 'nin/' + Date.now());
+      }
+
+      const appData = {
+        nin:        nin,
+        name:       name,
+        phone:      phone,
+        email:      email,
+        plan:       _ninPlan,
+        amount:     _ninAmt,
+        paystackRef: paystackRef || ''
+      };
+      const payStatus = paystackRef ? 'Paid' : 'Unpaid';
+      const extraUrls = fileUrl ? { doc: fileUrl } : {};
+
+      await saveApplication('NIN Reprinting - ' + _ninPlan, appData, payStatus, extraUrls);
+
+      hideLoading();
+      document.getElementById('nin-form').style.display    = 'none';
+      document.getElementById('nin-success').style.display = 'block';
+      openAdminWhatsApp('NIN Reprinting (' + _ninPlan + ')', email, phone);
+
+    } catch(err){
+      hideLoading();
+      console.error('NIN Firestore error:', err);
+      setAlert('nin-msg',
+        '❌ Could not save: ' + (err.message || err) +
+        '<br>Please screenshot this and send to WhatsApp: <strong>+234 706 354 5065</strong>',
+        'danger'
+      );
+    }
+  }
+
+  if(payNow){
+    // Paystack payment then save
+    payWithPaystack(_ninAmt, email, function(ref){ doSave(ref); });
+  } else {
+    // Pay Later — save immediately
+    await doSave(null);
+  }
+}
+</script>
+</body>
+</html>

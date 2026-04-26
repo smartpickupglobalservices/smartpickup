@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin Panel — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.admin-card { background:#fff; border-radius:var(--rl); border:1px solid var(--border); margin-bottom:1.2rem; overflow:hidden; box-shadow:var(--shadow); }
+.admin-card-head { padding:1rem 1.4rem; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:.8rem; }
+.admin-card-head:hover { background:#fafbfd; }
+.admin-info { flex:1; min-width:200px; }
+.admin-service { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--primary); margin-bottom:.25rem; }
+.admin-contact { font-size:.82rem; color:var(--text); margin-bottom:.18rem; }
+.admin-contact strong { color:var(--primary); }
+.admin-meta { font-size:.74rem; color:var(--muted); }
+.admin-actions { display:flex; gap:.45rem; flex-wrap:wrap; flex-shrink:0; }
+.admin-detail-btn { background:var(--info-l); color:var(--primary); border:1px solid var(--border); padding:.38rem .8rem; border-radius:var(--r); font-size:.78rem; font-weight:700; cursor:pointer; transition:all .2s; }
+.admin-detail-btn:hover { background:var(--primary); color:#fff; }
+.admin-data-panel { display:none; padding:1rem 1.4rem; background:#fafcff; border-top:1px solid var(--border); }
+.admin-data-panel.open { display:block; }
+.admin-data-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:.6rem; margin-bottom:1rem; }
+.admin-data-item { background:#fff; border:1px solid var(--border); border-radius:var(--r); padding:.65rem .9rem; }
+.admin-data-label { font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:.18rem; }
+.admin-data-val { font-size:.84rem; color:var(--text); font-weight:500; word-break:break-all; }
+.admin-note-box { background:#fff3cd; border:1px solid #ffc107; border-radius:var(--r); padding:.8rem; margin-bottom:.8rem; }
+.admin-note-box input { margin:0; padding:.5rem .7rem; border:1px solid #ddd; border-radius:5px; width:100%; font-size:.82rem; }
+.filter-bar { display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:1.5rem; align-items:center; }
+.filter-btn { padding:.38rem .85rem; border-radius:20px; font-size:.78rem; font-weight:700; border:2px solid var(--border); background:#fff; cursor:pointer; transition:all .2s; color:var(--muted); }
+.filter-btn.active, .filter-btn:hover { border-color:var(--primary); background:var(--primary); color:#fff; }
+.admin-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:.8rem; margin-bottom:2rem; }
+.admin-stat-card { background:#fff; border-radius:11px; border:1px solid var(--border); padding:1.2rem; text-align:center; box-shadow:var(--shadow); }
+.admin-stat-num { font-family:'Playfair Display',serif; font-size:2.1rem; font-weight:700; color:var(--primary); line-height:1; }
+.admin-stat-lbl { font-size:.69rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-top:.2rem; }
+</style>
+</head>
+<body>
+
+<!-- ══ ADMIN LOGIN ══ -->
+<div id="admin-login" style="min-height:100vh;background:linear-gradient(135deg,var(--primary),#0a4a82);display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div style="background:#fff;border-radius:18px;box-shadow:0 16px 56px rgba(0,46,91,.22);width:100%;max-width:400px;overflow:hidden">
+    <div style="background:var(--primary);padding:2rem;text-align:center">
+      <div style="width:48px;height:48px;background:var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto .8rem;overflow:hidden"><img src="logo.png" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='🚀'"/></div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:.2rem">Admin Access</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.65)">SmartPickup Global Services</div>
+    </div>
+    <div style="padding:2rem">
+      <div id="admin-login-msg" style="display:none"></div>
+      <div class="fgroup"><label class="flabel">Admin Password</label><input type="password" class="finput" id="adminPass" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')checkAdminPass()"/></div>
+      <button class="btn btn-gold btn-block btn-lg" onclick="checkAdminPass()">🔐 Enter Dashboard</button>
+      <div style="text-align:center;margin-top:1rem;font-size:.74rem;color:var(--muted)">For security, this password is confidential. Contact <strong>SmartPickup Global Services</strong> for access.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN DASHBOARD ══ -->
+<div id="admin-content" style="display:none;min-height:100vh;background:var(--light)">
+
+  <!-- FIRESTORE RULES BANNER — shown only if rules are blocking writes -->
+  <div id="rules-banner" style="display:none;background:#c0392b;padding:1rem 5%;display:none">
+    <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">
+        <div style="font-weight:800;color:#fff;font-size:.95rem">⛔ Database Rules Blocking All Writes</div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.85);margin-top:.2rem">Announcements, job postings, client applications — ALL are being rejected by Firestore security rules. Fix this in 60 seconds:</div>
+      </div>
+      <a href="https://console.firebase.google.com/project/smartpickup-644b3/firestore/rules" target="_blank" style="background:#fff;color:#c0392b;font-weight:800;padding:.6rem 1.2rem;border-radius:8px;text-decoration:none;white-space:nowrap;font-size:.85rem">🔧 Fix Rules Now →</a>
+    </div>
+    <div style="max-width:1200px;margin:.7rem auto 0;background:rgba(0,0,0,.2);border-radius:8px;padding:.8rem 1rem;font-family:monospace;font-size:.78rem;color:#fff">
+      Copy this into Firestore Rules tab, then click Publish:<br/><br/>
+      rules_version = '2';<br/>
+      service cloud.firestore {<br/>
+      &nbsp;&nbsp;match /databases/{database}/documents {<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;match /{document=**} {<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow read, write: if true;<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+      &nbsp;&nbsp;}<br/>
+      }
+    </div>
+  </div>
+
+  <nav class="navbar" style="position:sticky;top:0;z-index:900">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="nav-logo"><img src="logo.png" onerror="this.parentElement.innerHTML='🚀'"/></div>
+        <div><div class="nav-brand-name">SmartPickup Admin</div><div class="nav-brand-sub">Control Panel · Secured</div></div>
+      </div>
+      <div style="display:flex;gap:.8rem;align-items:center">
+        <span style="font-size:.8rem;color:rgba(255,255,255,.65)">🛡️ Admin Session</span>
+        <button onclick="lockAdmin()" class="btn btn-sm" style="background:rgba(255,255,255,.12);color:#fff;border-color:transparent">🔒 Lock</button>
+      </div>
+    </div>
+  </nav>
+
+  <div style="max-width:1240px;margin:0 auto;padding:2.5rem 5%">
+
+    <!-- Stats -->
+    <div class="admin-stats">
+      <div class="admin-stat-card"><div class="admin-stat-num" id="adm-total">—</div><div class="admin-stat-lbl">Total Submissions</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-num" id="adm-pending">—</div><div class="admin-stat-lbl">Pending</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-num" id="adm-approved">—</div><div class="admin-stat-lbl">Approved</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-num" id="adm-paid">—</div><div class="admin-stat-lbl">Paid</div></div>
+      <div class="admin-stat-card"><div class="admin-stat-num" id="adm-users">—</div><div class="admin-stat-lbl">Registered Users</div></div>
+    </div>
+
+    <!-- Search + Filters -->
+    <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);padding:1.4rem;margin-bottom:1.5rem;box-shadow:var(--shadow)">
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem">
+        <input type="text" class="finput" id="adm-search" placeholder="🔍 Search by name, email, phone, service..." style="flex:1;min-width:200px;margin:0" oninput="filterApps()"/>
+        <button class="btn btn-sm btn-primary" onclick="loadAllApps()">🔄 Refresh</button>
+        <a href="https://wa.me/2347063545065" target="_blank" class="btn btn-sm btn-wa">💬 WhatsApp</a>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" onclick="setFilter('pending',this)">⏳ Pending</button>
+        <button class="filter-btn" onclick="setFilter('approved',this)">✅ Approved</button>
+        <button class="filter-btn" onclick="setFilter('rejected',this)">❌ Rejected</button>
+        <button class="filter-btn" onclick="setFilter('Paid',this)">💳 Paid</button>
+        <button class="filter-btn" onclick="setFilter('Unpaid',this)">💸 Unpaid</button>
+      </div>
+    </div>
+
+    <!-- Applications List -->
+    <div id="adm-apps-list"><div style="text-align:center;padding:3rem;color:var(--muted)"><div style="font-size:2.5rem;margin-bottom:.5rem">📋</div>Loading applications...</div></div>
+
+    <!-- Announcements Section -->
+    <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);margin-top:2rem">
+      <div style="padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:800;color:var(--primary)">📢 Announcements <span style="font-size:.75rem;font-weight:400;color:var(--muted)">— pop up for clients on login</span></div>
+        <button class="btn btn-sm btn-primary" onclick="toggleAnnForm()">+ New Announcement</button>
+      </div>
+      <div id="ann-form-wrap" style="display:none;padding:1.4rem;border-bottom:1px solid var(--border);background:#f8fbff">
+        <div class="frow">
+          <div class="fgroup" style="margin:0"><label class="flabel">Title <span class="req">*</span></label><input class="finput" id="ann_title" placeholder="e.g. New JAMB Registration Open"/></div>
+          <div class="fgroup" style="margin:0"><label class="flabel">Type</label>
+            <select class="fselect" id="ann_type" style="margin:0">
+              <option value="info">ℹ️ Info</option>
+              <option value="success">✅ Success / Offer</option>
+              <option value="warning">⚠️ Important</option>
+              <option value="urgent">🔴 Urgent</option>
+            </select>
+          </div>
+        </div>
+        <div class="fgroup" style="margin-top:.8rem"><label class="flabel">Message <span class="req">*</span></label><textarea class="ftextarea" id="ann_body" rows="3" placeholder="Full announcement text visible to all clients..."></textarea></div>
+        <div class="frow" style="margin-top:.8rem">
+          <div class="fgroup" style="margin:0"><label class="flabel">Link (optional)</label><input class="finput" id="ann_link" placeholder="https://... or leave blank"/></div>
+          <div class="fgroup" style="margin:0"><label class="flabel">Expires</label><input type="date" class="finput" id="ann_expires"/></div>
+        </div>
+        <div style="display:flex;gap:.7rem;margin-top:1rem">
+          <button class="btn btn-primary" onclick="publishAnnouncement()">📢 Publish Now</button>
+          <button class="btn btn-outline" onclick="toggleAnnForm()">Cancel</button>
+        </div>
+        <div id="ann-msg" style="margin-top:.6rem"></div>
+      </div>
+      <div id="ann-list" style="padding:1rem 1.4rem">
+        <div style="text-align:center;padding:1.5rem;color:var(--muted);font-size:.85rem">Loading announcements...</div>
+      </div>
+    </div>
+
+    <!-- Online Registration / Job Postings -->
+    <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);margin-top:2rem">
+      <div style="padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:800;color:var(--primary)">💼 Online Registration / Job Postings</div>
+        <button class="btn btn-sm btn-primary" onclick="toggleJobForm()">+ Post Opportunity</button>
+      </div>
+      <div id="job-form-wrap" style="display:none;padding:1.4rem;border-bottom:1px solid var(--border);background:#f8fbff">
+        <div class="frow">
+          <div class="fgroup" style="margin:0"><label class="flabel">Job / Programme Title <span class="req">*</span></label><input class="finput" id="job_title" placeholder="e.g. CBN Recruitment 2026"/></div>
+          <div class="fgroup" style="margin:0"><label class="flabel">Category</label>
+            <select class="fselect" id="job_cat" style="margin:0">
+              <option>Government Employment</option>
+              <option>Private Sector</option>
+              <option>NGO / International</option>
+              <option>Military / Police</option>
+              <option>Federal Agency</option>
+              <option>State Agency</option>
+              <option>Graduate Programme</option>
+              <option>Scholarship</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="frow" style="margin-top:.8rem">
+          <div class="fgroup" style="margin:0"><label class="flabel">Organisation / Agency <span class="req">*</span></label><input class="finput" id="job_org" placeholder="e.g. Central Bank of Nigeria"/></div>
+          <div class="fgroup" style="margin:0"><label class="flabel">Application Deadline</label><input type="date" class="finput" id="job_deadline"/></div>
+        </div>
+        <div class="fgroup" style="margin-top:.8rem"><label class="flabel">Description / Requirements <span class="req">*</span></label><textarea class="ftextarea" id="job_desc" rows="4" placeholder="Requirements, qualifications, how to apply..."></textarea></div>
+        <div class="frow" style="margin-top:.8rem">
+          <div class="fgroup" style="margin:0"><label class="flabel">Official Link (optional)</label><input class="finput" id="job_link" placeholder="https://..."/></div>
+          <div class="fgroup" style="margin:0"><label class="flabel">Our Service Fee</label><input class="finput" id="job_fee" placeholder="e.g. ₦5,000 per application"/></div>
+        </div>
+        <div style="display:flex;gap:.7rem;margin-top:1rem">
+          <button class="btn btn-primary" onclick="publishJob()">📤 Publish Posting</button>
+          <button class="btn btn-outline" onclick="toggleJobForm()">Cancel</button>
+        </div>
+        <div id="job-msg" style="margin-top:.6rem"></div>
+      </div>
+      <div id="job-list" style="padding:1rem 1.4rem">
+        <div style="text-align:center;padding:1.5rem;color:var(--muted);font-size:.85rem">Loading job postings...</div>
+      </div>
+    </div>
+
+    <!-- Registered Users -->
+    <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);margin-top:2rem">
+      <div style="padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);font-weight:800;color:var(--primary)">👥 Registered Clients</div>
+      <div class="table-wrap">
+        <table class="data-table" style="border-radius:0">
+          <table style="width:100%;border-collapse:collapse;min-width:500px">
+            <thead><tr style="background:var(--primary)">
+              <th style="padding:.8rem 1.1rem;font-size:.72rem;color:#fff;font-weight:700;text-align:left;text-transform:uppercase;letter-spacing:.06em">Name</th>
+              <th style="padding:.8rem 1.1rem;font-size:.72rem;color:#fff;font-weight:700;text-align:left;text-transform:uppercase;letter-spacing:.06em">Email</th>
+              <th style="padding:.8rem 1.1rem;font-size:.72rem;color:#fff;font-weight:700;text-align:left;text-transform:uppercase;letter-spacing:.06em">Phone</th>
+              <th style="padding:.8rem 1.1rem;font-size:.72rem;color:#fff;font-weight:700;text-align:left;text-transform:uppercase;letter-spacing:.06em">State</th>
+              <th style="padding:.8rem 1.1rem;font-size:.72rem;color:#fff;font-weight:700;text-align:left;text-transform:uppercase;letter-spacing:.06em">Registered</th>
+              <th style="padding:.8rem 1.1rem;font-size:.72rem;color:#fff;font-weight:700;text-align:left;text-transform:uppercase;letter-spacing:.06em">Actions</th>
+            </tr></thead>
+            <tbody id="adm-users-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div id="detail-modal" style="display:none;position:fixed;inset:0;background:rgba(0,20,50,.85);z-index:9998;align-items:center;justify-content:center;padding:1.5rem">
+  <div style="background:#fff;border-radius:var(--rl);max-width:700px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:1">
+      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--primary)">📋 Application Details</div>
+      <button onclick="closeModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--muted)">✕</button>
+    </div>
+    <div id="modal-content" style="padding:1.5rem"></div>
+  </div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><div class="spinner-text" id="loadingMsg">Processing...</div></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script>
+<style>
+.loading-overlay { display:none; position:fixed; inset:0; background:rgba(0,20,50,.85); z-index:10000; align-items:center; justify-content:center; flex-direction:column; gap:1rem; }
+.loading-overlay.show { display:flex; }
+.spinner { width:46px; height:46px; border:4px solid rgba(255,255,255,.28); border-top-color:var(--gold); border-radius:50%; animation:spin .8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.spinner-text { color:#fff; font-weight:600; font-size:.88rem; font-family:'DM Sans',sans-serif; }
+.toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(100px); background:var(--primary); color:#fff; padding:.75rem 1.4rem; border-radius:30px; font-size:.84rem; font-weight:600; box-shadow:var(--shadow-lg); z-index:9999; transition:transform .35s ease; pointer-events:none; white-space:nowrap; font-family:'DM Sans',sans-serif; }
+.toast.show { transform:translateX(-50%) translateY(0); }
+</style>
+<script>
+const ADMIN_PASSWORD = "Temitope@516034";
+let _allApps = [];
+let _filterStatus = 'all';
+
+function checkAdminPass() {
+  const pass = document.getElementById('adminPass').value;
+  if (pass === ADMIN_PASSWORD) {
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-content').style.display = 'block';
+    loadAllApps();
+    loadUsers();
+    loadAnnouncements();
+    loadJobs();
+    checkFirestoreRules();
+  } else {
+    const msg = document.getElementById('admin-login-msg');
+    msg.className = 'alert alert-danger';
+    msg.innerHTML = '❌ Incorrect password. Access denied.';
+    msg.style.display = 'block';
+    document.getElementById('adminPass').value = '';
+  }
+}
+
+function lockAdmin() {
+  document.getElementById('admin-content').style.display = 'none';
+  document.getElementById('admin-login').style.display = 'flex';
+  document.getElementById('adminPass').value = '';
+}
+
+async function loadAllApps() {
+  showLoading('Loading applications...');
+  try {
+    const snap = await db.collection('applications').orderBy('createdAt', 'desc').get();
+    _allApps = [];
+    snap.forEach(doc => _allApps.push({ id: doc.id, ...doc.data() }));
+    hideLoading();
+    renderStats();
+    renderApps(_allApps);
+  } catch(e) {
+    hideLoading();
+    showToast('Error loading apps: ' + e.message, 'error');
+  }
+}
+
+function renderStats() {
+  const total = _allApps.length;
+  const pending = _allApps.filter(a => a.status === 'pending' || a.status === 'review').length;
+  const approved = _allApps.filter(a => a.status === 'approved' || a.status === 'completed').length;
+  const paid = _allApps.filter(a => a.paymentStatus === 'Paid').length;
+  document.getElementById('adm-total').textContent    = total;
+  document.getElementById('adm-pending').textContent  = pending;
+  document.getElementById('adm-approved').textContent = approved;
+  document.getElementById('adm-paid').textContent     = paid;
+}
+
+function setFilter(f, btn) {
+  _filterStatus = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterApps();
+}
+
+function filterApps() {
+  const q = (document.getElementById('adm-search')?.value || '').toLowerCase();
+  let apps = _allApps;
+  if (_filterStatus !== 'all') {
+    apps = apps.filter(a => a.status === _filterStatus || a.paymentStatus === _filterStatus);
+  }
+  if (q) {
+    apps = apps.filter(a => {
+      const str = JSON.stringify(a).toLowerCase();
+      return str.includes(q);
+    });
+  }
+  renderApps(apps);
+}
+
+function renderApps(apps) {
+  const container = document.getElementById('adm-apps-list');
+  if (!apps.length) {
+    container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--muted)"><div style="font-size:2.5rem;margin-bottom:.5rem">📭</div>No applications found.</div>';
+    return;
+  }
+  container.innerHTML = apps.map(a => {
+    const date = a.createdAt ? new Date(a.createdAt.seconds * 1000).toLocaleString('en-NG') : '—';
+    const stBadge = { pending:'badge-pending', review:'badge-review', approved:'badge-approved', completed:'badge-approved', rejected:'badge-rejected' }[a.status] || 'badge-pending';
+    const payBadge = a.paymentStatus === 'Paid' ? 'badge-paid' : 'badge-unpaid';
+    const phone = a.userPhone || (a.formData && a.formData.phone) || '—';
+    const email = a.userEmail || (a.formData && a.formData.email) || '—';
+    return `
+    <div class="admin-card" id="card-${a.id}">
+      <div class="admin-card-head">
+        <div class="admin-info">
+          <div class="admin-service">${a.service || 'Unknown Service'}</div>
+          <div class="admin-contact">📞 <strong>${phone}</strong> &nbsp;|&nbsp; ✉️ <strong>${email}</strong></div>
+          <div class="admin-meta">
+            <span class="badge ${stBadge}">${a.status || 'pending'}</span>
+            <span class="badge ${payBadge}" style="margin-left:.3rem">${a.paymentStatus || 'Unpaid'}</span>
+            <span style="margin-left:.5rem;font-size:.72rem;color:var(--muted)">${date}</span>
+          </div>
+          ${a.adminNote ? `<div style="font-size:.76rem;color:var(--danger);margin-top:.3rem">📝 Note: ${a.adminNote}</div>` : ''}
+        </div>
+        <div class="admin-actions">
+          <button class="admin-detail-btn" onclick="openDetail('${a.id}')">👁 View Details</button>
+          <button class="btn btn-sm btn-success" onclick="updateStatus('${a.id}','approved')">✅ Approve</button>
+          <button class="btn btn-sm btn-danger" onclick="updateStatus('${a.id}','rejected')">❌ Reject</button>
+          <button class="btn btn-sm btn-wa" onclick="callClient('${phone}','${email}','${a.service||''}')">💬 WhatsApp</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openDetail(id) {
+  const a = _allApps.find(x => x.id === id);
+  if (!a) return;
+  const date = a.createdAt ? new Date(a.createdAt.seconds * 1000).toLocaleString('en-NG') : '—';
+  const fd = a.formData || {};
+  const fileUrls = a.fileUrls || {};
+
+  let dataHtml = '';
+  Object.entries(fd).forEach(([k, v]) => {
+    if (k !== 'paystackRef') {
+      dataHtml += `<div class="admin-data-item"><div class="admin-data-label">${k.replace(/([A-Z])/g,' $1').replace(/_/g,' ')}</div><div class="admin-data-val">${v || '—'}</div></div>`;
+    }
+  });
+
+  let filesHtml = '';
+  Object.entries(fileUrls).forEach(([k, url]) => {
+    if (url) filesHtml += `<a href="${url}" target="_blank" class="btn btn-sm btn-outline" style="margin:.2rem">📎 View ${k}</a>`;
+  });
+
+  const stBadge = { pending:'badge-pending', review:'badge-review', approved:'badge-approved', rejected:'badge-rejected' }[a.status] || 'badge-pending';
+
+  document.getElementById('modal-content').innerHTML = `
+    <div style="background:var(--info-l);border-radius:var(--r);padding:1rem;margin-bottom:1.2rem">
+      <div style="font-size:1.05rem;font-weight:800;color:var(--primary)">${a.service}</div>
+      <div style="font-size:.82rem;color:var(--text);margin-top:.3rem">📅 ${date} &nbsp;|&nbsp; <span class="badge ${stBadge}">${a.status}</span> &nbsp;|&nbsp; <span class="badge ${a.paymentStatus==='Paid'?'badge-paid':'badge-unpaid'}">${a.paymentStatus||'Unpaid'}</span></div>
+    </div>
+    <div style="margin-bottom:1rem">
+      <div style="font-weight:800;color:var(--primary);font-size:.85rem;margin-bottom:.5rem">📱 Applicant Contact</div>
+      <div style="font-size:.9rem;background:var(--warn-l);border:1.5px solid var(--gold);border-radius:var(--r);padding:.9rem">
+        <strong>Phone:</strong> ${a.userPhone || fd.phone || '—'}<br/>
+        <strong>Email:</strong> ${a.userEmail || fd.email || '—'}
+        ${fd.paystackRef ? '<br/><strong>Paystack Ref:</strong> ' + fd.paystackRef : ''}
+      </div>
+    </div>
+    <div style="margin-bottom:1rem">
+      <div style="font-weight:800;color:var(--primary);font-size:.85rem;margin-bottom:.5rem">📋 Form Data</div>
+      <div class="admin-data-grid">${dataHtml}</div>
+    </div>
+    ${filesHtml ? `<div style="margin-bottom:1rem"><div style="font-weight:800;color:var(--primary);font-size:.85rem;margin-bottom:.5rem">📎 Uploaded Documents</div>${filesHtml}</div>` : ''}
+    <div style="margin-bottom:1rem">
+      <div style="font-weight:800;color:var(--primary);font-size:.85rem;margin-bottom:.5rem">📜 Upload Certificate / Result for Client</div>
+      <div style="background:#f0fff4;border:1.5px solid #28a745;border-radius:var(--r);padding:.9rem">
+        <div style="font-size:.78rem;color:#1a6b3a;margin-bottom:.6rem">Upload the completed certificate, document or result. The client will see this in their tracking dashboard.</div>
+        <input type="file" id="cert-upload-input" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="display:none" onchange="previewCertFile()"/>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">
+          <button class="btn btn-sm" style="background:#28a745;color:#fff;border-color:#28a745" onclick="document.getElementById('cert-upload-input').click()">📎 Choose File</button>
+          <span id="cert-file-name" style="font-size:.78rem;color:var(--muted)">No file chosen</span>
+        </div>
+        <div id="cert-upload-msg" style="margin-top:.5rem"></div>
+        <button class="btn btn-primary btn-sm" style="margin-top:.7rem;width:100%" onclick="uploadCertificate('${a.id}','${a.userEmail||fd.email||''}')">📤 Upload & Notify Client</button>
+        ${a.fileUrls && a.fileUrls.certificate ? `<div style="margin-top:.6rem;padding:.5rem;background:#fff;border-radius:5px;border:1px solid #ddd"><span style="font-size:.78rem;color:#1a6b3a;font-weight:700">✅ Certificate already uploaded:</span> <a href="${a.fileUrls.certificate}" target="_blank" style="font-size:.78rem;color:var(--primary)">View Certificate →</a></div>` : ''}
+      </div>
+    </div>
+    <div style="margin-bottom:1rem">
+      <div style="font-weight:800;color:var(--primary);font-size:.85rem;margin-bottom:.5rem">📝 Admin Note to Client</div>
+      <div style="display:flex;gap:.6rem">
+        <input type="text" class="finput" id="modal-note" placeholder="Add note for client (e.g. Missing document, approved, etc)..." style="margin:0;flex:1" value="${a.adminNote||''}"/>
+        <button class="btn btn-primary btn-sm" onclick="saveNote('${a.id}')">Save</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+      <button class="btn btn-success btn-lg" onclick="updateStatus('${a.id}','approved');closeModal()" style="flex:1">✅ Approve</button>
+      <button class="btn btn-danger btn-lg" onclick="updateStatus('${a.id}','rejected');closeModal()" style="flex:1">❌ Reject</button>
+      <button class="btn btn-wa" onclick="callClient('${a.userPhone||fd.phone||''}','${a.userEmail||fd.email||''}','${a.service||''}')">💬 WhatsApp Client</button>
+    </div>`;
+
+  document.getElementById('detail-modal').style.display = 'flex';
+}
+
+function closeModal() { document.getElementById('detail-modal').style.display = 'none'; }
+document.getElementById('detail-modal').addEventListener('click', e => { if (e.target === document.getElementById('detail-modal')) closeModal(); });
+
+async function updateStatus(id, status) {
+  showLoading('Updating status...');
+  try {
+    await db.collection('applications').doc(id).update({ status, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+    hideLoading();
+    showToast('✅ Status updated to: ' + status, 'success');
+    const app = _allApps.find(a => a.id === id);
+    if (app) app.status = status;
+    renderApps(_allApps.filter(a => _filterStatus === 'all' || a.status === _filterStatus || a.paymentStatus === _filterStatus));
+  } catch(e) { hideLoading(); showToast('Error: ' + e.message, 'error'); }
+}
+
+async function saveNote(id) {
+  const note = document.getElementById('modal-note')?.value || '';
+  showLoading('Saving note...');
+  try {
+    await db.collection('applications').doc(id).update({ adminNote: note });
+    hideLoading();
+    showToast('✅ Note saved.', 'success');
+    const app = _allApps.find(a => a.id === id);
+    if (app) app.adminNote = note;
+  } catch(e) { hideLoading(); showToast('Error: ' + e.message, 'error'); }
+}
+
+function callClient(phone, email, service) {
+  const msg = encodeURIComponent(`Hello, this is SmartPickup Global Services regarding your *${service}* application. We are ready to assist you. Please confirm your details. Phone: ${phone} | Email: ${email}`);
+  window.open(`https://wa.me/${phone.replace(/[^0-9]/g,'')}?text=${msg}`, '_blank');
+}
+
+async function loadUsers() {
+  const tbody = document.getElementById('adm-users-tbody');
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:var(--muted)">⏳ Loading clients...</td></tr>';
+  try {
+    const clientMap = new Map(); // key: email or phone → data
+
+    // 1. Pull from users collection (registered accounts)
+    try {
+      const uSnap = await db.collection('users').get();
+      uSnap.forEach(doc => {
+        const u = doc.data();
+        const key = u.email || doc.id;
+        if (!clientMap.has(key)) {
+          clientMap.set(key, {
+            uid: doc.id,
+            name: ((u.firstName || '') + ' ' + (u.lastName || '')).trim() || '—',
+            email: u.email || '—',
+            phone: u.phone || '—',
+            state: u.state || '—',
+            date: u.createdAt ? new Date(u.createdAt.seconds * 1000).toLocaleDateString('en-NG') : '—',
+            source: 'registered'
+          });
+        }
+      });
+    } catch(e) { console.warn('users collection read failed:', e.message); }
+
+    // 2. Pull unique submitters from applications (covers guests and all form submissions)
+    try {
+      const aSnap = await db.collection('applications').get();
+      aSnap.forEach(doc => {
+        const d = doc.data();
+        const key = d.userEmail || d.userPhone || doc.id;
+        if (key && !clientMap.has(key)) {
+          const fd = d.formData || {};
+          const name = fd.name || fd.fullName || fd.applicantName || fd.proprietorName ||
+                       fd.contactName || fd.contact || fd.officer || d.userEmail || '—';
+          clientMap.set(key, {
+            uid: d.userId || doc.id,
+            name,
+            email: d.userEmail || fd.email || '—',
+            phone: d.userPhone || fd.phone || '—',
+            state: fd.state || '—',
+            date: d.createdAt ? new Date(d.createdAt.seconds * 1000).toLocaleDateString('en-NG') : '—',
+            source: 'applicant'
+          });
+        }
+      });
+    } catch(e) { console.warn('applications collection read failed:', e.message); }
+
+    const clients = Array.from(clientMap.values());
+    // Sort: registered accounts first, then applicants
+    clients.sort((a, b) => (a.source === 'registered' ? -1 : 1));
+
+    document.getElementById('adm-users').textContent = clients.length;
+
+    if (clients.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted)">No clients found. Ensure database read permissions are enabled.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = clients.map(c => buildUserRow(c.uid, c.name, c.email, c.phone, c.state, c.date)).join('');
+
+  } catch(e) {
+    console.error('loadUsers error:', e);
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:#c0392b">❌ Error: ${e.message}</td></tr>`;
+  }
+}
+
+function buildUserRow(uid, name, email, phone, state, date) {
+  const safeEmail = email.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  const safeName  = name.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  const safePhone = phone.replace(/'/g,"\\'");
+  const safeState = state.replace(/'/g,"\\'");
+  return `<tr>
+    <td style="padding:.8rem 1.1rem;font-size:.83rem;border-bottom:1px solid var(--border)">${name}</td>
+    <td style="padding:.8rem 1.1rem;font-size:.83rem;border-bottom:1px solid var(--border)">${email}</td>
+    <td style="padding:.8rem 1.1rem;font-size:.83rem;border-bottom:1px solid var(--border)">${phone}</td>
+    <td style="padding:.8rem 1.1rem;font-size:.83rem;border-bottom:1px solid var(--border)">${state}</td>
+    <td style="padding:.8rem 1.1rem;font-size:.83rem;border-bottom:1px solid var(--border)">${date}</td>
+    <td style="padding:.6rem 1.1rem;border-bottom:1px solid var(--border)">
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+        <button onclick="editClient('${uid}','${safeName}','${safePhone}','${safeState}','${safeEmail}')" class="admin-detail-btn" style="background:#e8f4fd;color:#0366d6">✏️ Edit</button>
+        <button onclick="sendPasswordReset('${safeEmail}')" class="admin-detail-btn" style="background:#fff3cd;color:#856404">🔑 Reset PW</button>
+      </div>
+    </td>
+  </tr>`;
+}
+
+// ── EDIT CLIENT DETAILS ──
+function editClient(uid, name, phone, state, email) {
+  const modal = document.getElementById('detail-modal');
+  const content = document.getElementById('modal-content');
+  content.innerHTML = `
+    <div style="margin-bottom:1.2rem">
+      <div style="font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem">Full Name</div>
+      <input id="edit-name" class="finput" value="${name}" style="margin:0"/>
+    </div>
+    <div style="margin-bottom:1.2rem">
+      <div style="font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem">Phone Number</div>
+      <input id="edit-phone" class="finput" value="${phone}" style="margin:0"/>
+    </div>
+    <div style="margin-bottom:1.2rem">
+      <div style="font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem">State</div>
+      <input id="edit-state" class="finput" value="${state}" style="margin:0"/>
+    </div>
+    <div style="margin-bottom:1.5rem">
+      <div style="font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem">Email (read-only)</div>
+      <input class="finput" value="${email}" disabled style="margin:0;opacity:.6"/>
+    </div>
+    <div id="edit-msg"></div>
+    <div style="display:flex;gap:.7rem">
+      <button class="btn btn-primary" style="flex:1" onclick="saveClientEdit('${uid}')">💾 Save Changes</button>
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+    </div>`;
+  modal.style.display = 'flex';
+}
+
+async function saveClientEdit(uid) {
+  const name  = document.getElementById('edit-name').value.trim();
+  const phone = document.getElementById('edit-phone').value.trim();
+  const state = document.getElementById('edit-state').value.trim();
+  if (!name) { document.getElementById('edit-msg').innerHTML='<div class="alert alert-danger">Name cannot be empty.</div>'; return; }
+  showLoading('Saving changes...');
+  try {
+    const parts = name.split(' ');
+    const firstName = parts[0];
+    const lastName  = parts.slice(1).join(' ');
+    await db.collection('users').doc(uid).update({ firstName, lastName, phone, state });
+    hideLoading();
+    closeModal();
+    showToast('✅ Client details updated!', 'success');
+    loadUsers();
+  } catch(e) {
+    hideLoading();
+    document.getElementById('edit-msg').innerHTML='<div class="alert alert-danger">Error: '+e.message+'</div>';
+  }
+}
+
+// ── SEND PASSWORD RESET EMAIL ──
+async function sendPasswordReset(email) {
+  if (!email || !email.includes('@')) { showToast('❌ No valid email for this client.', 'error'); return; }
+  if (!confirm('Send password reset email to:\n' + email + '?\n\nThey will receive a link to set a new password.')) return;
+  showLoading('Sending reset email...');
+  try {
+    await firebase.auth().sendPasswordResetEmail(email);
+    hideLoading();
+    showToast('✅ Password reset email sent to ' + email, 'success');
+  } catch(e) {
+    hideLoading();
+    showToast('❌ Error: ' + e.message, 'error');
+  }
+}
+function previewCertFile() {
+  const input = document.getElementById('cert-upload-input');
+  const label = document.getElementById('cert-file-name');
+  if (input && input.files && input.files.length > 0) {
+    label.textContent = '📄 ' + input.files[0].name;
+    label.style.color = '#1a6b3a';
+  }
+}
+
+async function uploadCertificate(appId, clientEmail) {
+  const input = document.getElementById('cert-upload-input');
+  if (!input || !input.files || input.files.length === 0) {
+    document.getElementById('cert-upload-msg').innerHTML = '<span style="color:#c0392b;font-size:.78rem">❌ Please choose a file first.</span>';
+    return;
+  }
+  const file = input.files[0];
+  const msgEl = document.getElementById('cert-upload-msg');
+  msgEl.innerHTML = '<span style="color:#0366d6;font-size:.78rem">⏳ Uploading certificate...</span>';
+  showLoading('Uploading certificate...');
+  try {
+    const ref = storage.ref('certificates/' + appId + '_' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g,'_'));
+    await ref.put(file);
+    const url = await ref.getDownloadURL();
+    await db.collection('applications').doc(appId).update({
+      'fileUrls.certificate': url,
+      certificateUploadedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      status: 'completed'
+    });
+    hideLoading();
+    msgEl.innerHTML = '<span style="color:#1a6b3a;font-size:.78rem;font-weight:700">✅ Certificate uploaded! Client can now view and download it from their dashboard.</span>';
+    showToast('✅ Certificate uploaded and application marked completed!', 'success');
+    const app = _allApps.find(a => a.id === appId);
+    if (app) { app.fileUrls = app.fileUrls || {}; app.fileUrls.certificate = url; app.status = 'completed'; }
+    const a = _allApps.find(x => x.id === appId);
+    if (a) {
+      const phone = (a.userPhone || (a.formData && a.formData.phone) || '').replace(/[^0-9]/g,'');
+      if (phone) {
+        const svc = a.service || 'your application';
+        const msg = encodeURIComponent('Hello, your *' + svc + '* has been completed by SmartPickup Global Services.\n\nYour certificate is now available in your dashboard. Log in to view and download it.\n\nThank you for using SmartPickup!');
+        setTimeout(() => window.open('https://wa.me/' + phone + '?text=' + msg, '_blank'), 800);
+      }
+    }
+  } catch(e) {
+    hideLoading();
+    msgEl.innerHTML = '<span style="color:#c0392b;font-size:.78rem">❌ Upload failed: ' + e.message + '</span>';
+  }
+}
+// ── CHECK FIRESTORE RULES ──
+async function checkFirestoreRules() {
+  try {
+    // Try a test write to detect permission errors
+    await db.collection('_rule_check').doc('ping').set({ ts: Date.now() });
+    await db.collection('_rule_check').doc('ping').delete();
+    document.getElementById('rules-banner').style.display = 'none';
+  } catch(e) {
+    if (e.code === 'permission-denied' || e.message.includes('permission')) {
+      document.getElementById('rules-banner').style.display = 'block';
+    }
+  }
+}
+
+// ── ANNOUNCEMENTS ──
+function toggleAnnForm() {
+  const w = document.getElementById('ann-form-wrap');
+  w.style.display = w.style.display === 'none' ? 'block' : 'none';
+}
+
+async function publishAnnouncement() {
+  const title = document.getElementById('ann_title').value.trim();
+  const body  = document.getElementById('ann_body').value.trim();
+  const type  = document.getElementById('ann_type').value;
+  const link  = document.getElementById('ann_link').value.trim();
+  const expires = document.getElementById('ann_expires').value;
+  if (!title || !body) { document.getElementById('ann-msg').innerHTML = '<div class="alert alert-danger">Title and message are required.</div>'; return; }
+  showLoading('Publishing announcement...');
+  try {
+    await db.collection('announcements').add({
+      title, body, type, link, expires,
+      active: true,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    hideLoading();
+    document.getElementById('ann_title').value = '';
+    document.getElementById('ann_body').value = '';
+    document.getElementById('ann_link').value = '';
+    document.getElementById('ann-msg').innerHTML = '<div class="alert alert-success">✅ Announcement published! Clients will see it on next login.</div>';
+    loadAnnouncements();
+  } catch(e) {
+    hideLoading();
+    const msg = e.code === 'permission-denied' || e.message.includes('permission')
+      ? '❌ Database rules blocking this action. <a href="https://console.firebase.google.com/project/smartpickup-644b3/firestore/rules" target="_blank" style="color:#fff;font-weight:800;text-decoration:underline">Click here to fix Firestore rules →</a>'
+      : '❌ Error: ' + e.message;
+    document.getElementById('ann-msg').innerHTML = '<div class="alert alert-danger">' + msg + '</div>';
+    document.getElementById('rules-banner').style.display = 'block';
+  }
+}
+
+async function loadAnnouncements() {
+  try {
+    const snap = await db.collection('announcements').orderBy('createdAt','desc').get();
+    const list = document.getElementById('ann-list');
+    if (snap.empty) { list.innerHTML = '<div style="padding:1rem;color:var(--muted);font-size:.85rem">No announcements yet.</div>'; return; }
+    const typeColors = { info:'#0366d6', success:'#28a745', warning:'#e67e22', urgent:'#e74c3c' };
+    const typeIcons  = { info:'ℹ️', success:'✅', warning:'⚠️', urgent:'🔴' };
+    let html = '';
+    snap.forEach(doc => {
+      const d = doc.data();
+      const col = typeColors[d.type] || '#0366d6';
+      const icon = typeIcons[d.type] || 'ℹ️';
+      const date = d.createdAt ? new Date(d.createdAt.seconds*1000).toLocaleDateString('en-NG') : '—';
+      html += `<div style="border-left:4px solid ${col};padding:.9rem 1rem;margin-bottom:.8rem;background:#fafcff;border-radius:0 var(--r) var(--r) 0;display:flex;gap:.8rem;align-items:flex-start">
+        <div style="font-size:1.4rem">${icon}</div>
+        <div style="flex:1">
+          <div style="font-weight:800;color:var(--primary);margin-bottom:.18rem">${d.title}</div>
+          <div style="font-size:.82rem;color:var(--text);margin-bottom:.3rem">${d.body}</div>
+          <div style="font-size:.72rem;color:var(--muted)">${date}${d.expires?' · Expires: '+d.expires:''}${d.active?' · <span style="color:#28a745;font-weight:700">Active</span>':' · Archived'}</div>
+        </div>
+        <button onclick="archiveAnn('${doc.id}')" style="background:#fee;border:1px solid #fcc;color:#c0392b;border-radius:5px;padding:.28rem .6rem;font-size:.74rem;cursor:pointer;white-space:nowrap">Archive</button>
+      </div>`;
+    });
+    list.innerHTML = html;
+  } catch(e) { console.error('Announcements load:', e); }
+}
+
+async function archiveAnn(id) {
+  if (!confirm('Archive this announcement? Clients will no longer see it.')) return;
+  try { await db.collection('announcements').doc(id).update({ active: false }); loadAnnouncements(); showToast('Announcement archived.', 'success'); }
+  catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ── JOB POSTINGS ──
+function toggleJobForm() {
+  const w = document.getElementById('job-form-wrap');
+  w.style.display = w.style.display === 'none' ? 'block' : 'none';
+}
+
+async function publishJob() {
+  const title = document.getElementById('job_title').value.trim();
+  const org   = document.getElementById('job_org').value.trim();
+  const desc  = document.getElementById('job_desc').value.trim();
+  if (!title || !org || !desc) { document.getElementById('job-msg').innerHTML = '<div class="alert alert-danger">Title, organisation and description are required.</div>'; return; }
+  showLoading('Publishing job posting...');
+  try {
+    await db.collection('job_postings').add({
+      title, org, desc,
+      category: document.getElementById('job_cat').value,
+      deadline: document.getElementById('job_deadline').value,
+      link: document.getElementById('job_link').value.trim(),
+      fee:  document.getElementById('job_fee').value.trim(),
+      active: true,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    hideLoading();
+    ['job_title','job_org','job_desc','job_link','job_fee'].forEach(id => { document.getElementById(id).value = ''; });
+    document.getElementById('job-msg').innerHTML = '<div class="alert alert-success">✅ Job posting published! Clients can now see it on the Online Registration page.</div>';
+    loadJobs();
+  } catch(e) {
+    hideLoading();
+    const msg = e.code === 'permission-denied' || e.message.includes('permission')
+      ? '❌ Database rules blocking this action. <a href="https://console.firebase.google.com/project/smartpickup-644b3/firestore/rules" target="_blank" style="color:#fff;font-weight:800;text-decoration:underline">Click here to fix Firestore rules →</a>'
+      : '❌ Error: ' + e.message;
+    document.getElementById('job-msg').innerHTML = '<div class="alert alert-danger">' + msg + '</div>';
+    document.getElementById('rules-banner').style.display = 'block';
+  }
+}
+
+async function loadJobs() {
+  try {
+    const snap = await db.collection('job_postings').orderBy('createdAt','desc').get();
+    const list = document.getElementById('job-list');
+    if (snap.empty) { list.innerHTML = '<div style="padding:1rem;color:var(--muted);font-size:.85rem">No job postings yet.</div>'; return; }
+    let html = '';
+    snap.forEach(doc => {
+      const d = doc.data();
+      const date = d.createdAt ? new Date(d.createdAt.seconds*1000).toLocaleDateString('en-NG') : '—';
+      html += `<div style="border:1px solid var(--border);border-radius:var(--r);padding:.9rem 1rem;margin-bottom:.8rem;display:flex;gap:.8rem;align-items:flex-start">
+        <div style="font-size:1.6rem">💼</div>
+        <div style="flex:1">
+          <div style="font-weight:800;color:var(--primary)">${d.title}</div>
+          <div style="font-size:.8rem;color:var(--muted);margin:.18rem 0">${d.org} · ${d.category} · Posted: ${date}${d.deadline?' · Deadline: '+d.deadline:''}</div>
+          <div style="font-size:.8rem;color:var(--text)">${d.desc.slice(0,120)}${d.desc.length>120?'...':''}</div>
+          ${d.fee ? "<div style='font-size:.78rem'>Our fee: "+d.fee+"</div>" : ""}
+        </div>
+        <button onclick="closeJob('${doc.id}')" style="background:#fee;border:1px solid #fcc;color:#c0392b;border-radius:5px;padding:.28rem .6rem;font-size:.74rem;cursor:pointer">Close</button>
+      </div>`;
+    });
+    list.innerHTML = html;
+  } catch(e) { console.error('Jobs load:', e); }
+}
+
+async function closeJob(id) {
+  if (!confirm('Close this job posting?')) return;
+  try { await db.collection('job_postings').doc(id).update({ active: false }); loadJobs(); showToast('Job posting closed.', 'success'); }
+  catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+</script>
+</body>
+</html>

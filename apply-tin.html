@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>TIN Registration — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+</head>
+<body data-page="tin">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero" style="background:linear-gradient(135deg,#1a3a2a,#0d2218)">
+  <div class="page-hero-inner">
+    <div class="badge-row"><span class="h-badge hb-gold">🔢 TIN Registration</span><span class="h-badge hb-white">FIRS Official</span></div>
+    <h1>Tax Identification Number (TIN)</h1>
+    <p>Individual · Business Name · Company — all types. FIRS-registered. From ₦15,000.</p>
+  </div>
+</div>
+<div style="background:var(--light);padding:2.5rem 5% 4rem">
+<div style="max-width:820px;margin:0 auto">
+<div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);box-shadow:var(--shadow);padding:2rem">
+  <div class="contact-bar">📞 <strong>+234 706 354 5065</strong></div>
+  <div id="tin-msg" style="display:none"></div>
+  <div id="tin-success" style="display:none;text-align:center;padding:2rem">
+    <div style="font-size:3.5rem;margin-bottom:.8rem">🎉</div>
+    <h3 style="font-family:'Playfair Display',serif;color:var(--primary)">TIN Application Submitted!</h3>
+    <p style="color:var(--muted);margin:.5rem 0 1.5rem">We will process your TIN and contact you within 24 hours.</p>
+    <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+      <a href="dashboard.html" class="btn btn-primary">📊 My Dashboard</a>
+      <a href="https://wa.me/2347063545065" target="_blank" class="btn btn-wa">💬 WhatsApp Us</a>
+    </div>
+  </div>
+  <div id="tin-form">
+
+  <!-- Type selector -->
+  <div class="sec-title">🔢 TIN Application Type</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.5rem">
+    <div onclick="selectTINType('individual')" id="tin_type_individual" class="nin-plan"><div style="font-size:1.5rem">👤</div><div style="font-weight:800;font-size:.85rem;margin-top:.3rem">Individual</div><div style="font-size:.7rem;color:var(--muted);margin-top:.15rem">Personal TIN</div><div style="font-weight:700;color:var(--success);font-size:.9rem;margin-top:.3rem">₦15,000</div></div>
+    <div onclick="selectTINType('business')" id="tin_type_business" class="nin-plan"><div style="font-size:1.5rem">🏪</div><div style="font-weight:800;font-size:.85rem;margin-top:.3rem">Business Name</div><div style="font-size:.7rem;color:var(--muted);margin-top:.15rem">BN / Sole Proprietor</div><div style="font-weight:700;color:var(--success);font-size:.9rem;margin-top:.3rem">₦15,000</div></div>
+    <div onclick="selectTINType('company')" id="tin_type_company" class="nin-plan"><div style="font-size:1.5rem">🏛️</div><div style="font-weight:800;font-size:.85rem;margin-top:.3rem">Company</div><div style="font-size:.7rem;color:var(--muted);margin-top:.15rem">LTD / PLC / NGO</div><div style="font-weight:700;color:var(--success);font-size:.9rem;margin-top:.3rem">₦15,000</div></div>
+  </div>
+  <div id="tin_type_banner" style="display:none;background:var(--success-l);border:1.5px solid var(--success);border-radius:var(--r);padding:.6rem 1rem;margin-bottom:1.2rem;font-weight:700;color:var(--success);font-size:.83rem"></div>
+
+  <!-- INDIVIDUAL SECTION -->
+  <div id="tin_sec_individual" style="display:none">
+    <div class="sec-title">👤 Personal Details</div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Surname <span class="req">*</span></label><input type="text" class="finput" id="tin_surname" placeholder="Surname (as on NIN)"/></div>
+      <div class="fgroup"><label class="flabel">First Name <span class="req">*</span></label><input type="text" class="finput" id="tin_firstname" placeholder="First name"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Other Name</label><input type="text" class="finput" id="tin_othername" placeholder="Middle name (optional)"/></div>
+      <div class="fgroup"><label class="flabel">Date of Birth <span class="req">*</span></label><input type="date" class="finput" id="tin_dob"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">NIN <span class="req">*</span></label><input type="text" class="finput" id="tin_nin" placeholder="11-digit NIN" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/></div>
+      <div class="fgroup"><label class="flabel">BVN</label><input type="text" class="finput" id="tin_bvn" placeholder="11-digit BVN" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Phone <span class="req">*</span></label><input type="tel" class="finput" id="tin_phone_ind" placeholder="08012345678" oninput="this.value=this.value.replace(/[^0-9+]/g,'')"/></div>
+      <div class="fgroup"><label class="flabel">Email</label><input type="email" class="finput" id="tin_email_ind" placeholder="your@email.com"/></div>
+    </div>
+    <div class="fgroup"><label class="flabel">Residential Address <span class="req">*</span></label><input type="text" class="finput" id="tin_addr_ind" placeholder="Full residential address"/></div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">State <span class="req">*</span></label>
+        <select class="fselect" id="tin_state_ind">
+          <option value="">— State —</option>
+          <option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option><option>Anambra</option><option>Bauchi</option><option>Bayelsa</option><option>Benue</option><option>Borno</option><option>Cross River</option><option>Delta</option><option>Ebonyi</option><option>Edo</option><option>Ekiti</option><option>Enugu</option><option>FCT Abuja</option><option>Gombe</option><option>Imo</option><option>Jigawa</option><option>Kaduna</option><option>Kano</option><option>Katsina</option><option>Kebbi</option><option>Kogi</option><option>Kwara</option><option>Lagos</option><option>Nasarawa</option><option>Niger</option><option>Ogun</option><option>Ondo</option><option>Osun</option><option>Oyo</option><option>Plateau</option><option>Rivers</option><option>Sokoto</option><option>Taraba</option><option>Yobe</option><option>Zamfara</option>
+        </select>
+      </div>
+      <div class="fgroup"><label class="flabel">LGA <span class="req">*</span></label><input type="text" class="finput" id="tin_lga_ind" placeholder="Your LGA"/></div>
+    </div>
+    <div class="fgroup"><label class="flabel">Place of Work / Employer (optional)</label><input type="text" class="finput" id="tin_employer" placeholder="Employer name or Self-employed"/></div>
+    <div class="fgroup"><label class="flabel">Upload Valid ID (NIN Card / Passport) <span class="req">*</span></label><input type="file" class="finput" id="tin_doc_id" accept=".pdf,.jpg,.png" style="padding:.5rem"/></div>
+  </div>
+
+  <!-- BUSINESS NAME SECTION -->
+  <div id="tin_sec_business" style="display:none">
+    <div class="sec-title">🏪 Business Name Details</div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Business Name <span class="req">*</span></label><input type="text" class="finput" id="tin_bizname" placeholder="As registered with CAC"/></div>
+      <div class="fgroup"><label class="flabel">CAC BN Number <span class="req">*</span></label><input type="text" class="finput" id="tin_bn" placeholder="BN Number"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Proprietor Full Name <span class="req">*</span></label><input type="text" class="finput" id="tin_prop" placeholder="Proprietor surname and names"/></div>
+      <div class="fgroup"><label class="flabel">Proprietor NIN <span class="req">*</span></label><input type="text" class="finput" id="tin_prop_nin" placeholder="11-digit NIN" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Business Phone <span class="req">*</span></label><input type="tel" class="finput" id="tin_phone_biz" placeholder="08012345678" oninput="this.value=this.value.replace(/[^0-9+]/g,'')"/></div>
+      <div class="fgroup"><label class="flabel">Business Email</label><input type="email" class="finput" id="tin_email_biz" placeholder="office@business.com"/></div>
+    </div>
+    <div class="fgroup"><label class="flabel">Business Address <span class="req">*</span></label><input type="text" class="finput" id="tin_addr_biz" placeholder="Full business address"/></div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">State <span class="req">*</span></label>
+        <select class="fselect" id="tin_state_biz">
+          <option value="">— State —</option>
+          <option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option><option>Anambra</option><option>Bauchi</option><option>Bayelsa</option><option>Benue</option><option>Borno</option><option>Cross River</option><option>Delta</option><option>Ebonyi</option><option>Edo</option><option>Ekiti</option><option>Enugu</option><option>FCT Abuja</option><option>Gombe</option><option>Imo</option><option>Jigawa</option><option>Kaduna</option><option>Kano</option><option>Katsina</option><option>Kebbi</option><option>Kogi</option><option>Kwara</option><option>Lagos</option><option>Nasarawa</option><option>Niger</option><option>Ogun</option><option>Ondo</option><option>Osun</option><option>Oyo</option><option>Plateau</option><option>Rivers</option><option>Sokoto</option><option>Taraba</option><option>Yobe</option><option>Zamfara</option>
+        </select>
+      </div>
+      <div class="fgroup"><label class="flabel">LGA <span class="req">*</span></label><input type="text" class="finput" id="tin_lga_biz" placeholder="LGA"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">CAC Certificate <span class="req">*</span></label><input type="file" class="finput" id="tin_doc_cac_biz" accept=".pdf,.jpg,.png" style="padding:.5rem"/></div>
+      <div class="fgroup"><label class="flabel">Proprietor ID (NIN Card / Passport)</label><input type="file" class="finput" id="tin_doc_id_biz" accept=".pdf,.jpg,.png" style="padding:.5rem"/></div>
+    </div>
+  </div>
+
+  <!-- COMPANY SECTION -->
+  <div id="tin_sec_company" style="display:none">
+    <div class="sec-title">🏛️ Company Details</div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Company Name <span class="req">*</span></label><input type="text" class="finput" id="tin_coname" placeholder="As on MEMART / CAC certificate"/></div>
+      <div class="fgroup"><label class="flabel">RC Number <span class="req">*</span></label><input type="text" class="finput" id="tin_rc" placeholder="RC Number"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Company Type <span class="req">*</span></label>
+        <select class="fselect" id="tin_cotype">
+          <option value="">— Select —</option>
+          <option>Private Limited Company (LTD)</option>
+          <option>Public Limited Company (PLC)</option>
+          <option>Incorporated Trustees (NGO)</option>
+          <option>Unlimited Company</option>
+        </select>
+      </div>
+      <div class="fgroup"><label class="flabel">Date of Incorporation <span class="req">*</span></label><input type="date" class="finput" id="tin_incdate"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Company Phone <span class="req">*</span></label><input type="tel" class="finput" id="tin_phone_co" placeholder="08012345678" oninput="this.value=this.value.replace(/[^0-9+]/g,'')"/></div>
+      <div class="fgroup"><label class="flabel">Company Email</label><input type="email" class="finput" id="tin_email_co" placeholder="company@email.com"/></div>
+    </div>
+    <div class="fgroup"><label class="flabel">Registered Address <span class="req">*</span></label><input type="text" class="finput" id="tin_addr_co" placeholder="Registered office address"/></div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">State <span class="req">*</span></label>
+        <select class="fselect" id="tin_state_co">
+          <option value="">— State —</option>
+          <option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option><option>Anambra</option><option>Bauchi</option><option>Bayelsa</option><option>Benue</option><option>Borno</option><option>Cross River</option><option>Delta</option><option>Ebonyi</option><option>Edo</option><option>Ekiti</option><option>Enugu</option><option>FCT Abuja</option><option>Gombe</option><option>Imo</option><option>Jigawa</option><option>Kaduna</option><option>Kano</option><option>Katsina</option><option>Kebbi</option><option>Kogi</option><option>Kwara</option><option>Lagos</option><option>Nasarawa</option><option>Niger</option><option>Ogun</option><option>Ondo</option><option>Osun</option><option>Oyo</option><option>Plateau</option><option>Rivers</option><option>Sokoto</option><option>Taraba</option><option>Yobe</option><option>Zamfara</option>
+        </select>
+      </div>
+      <div class="fgroup"><label class="flabel">LGA</label><input type="text" class="finput" id="tin_lga_co" placeholder="LGA"/></div>
+    </div>
+    <div class="sec-title" style="margin-top:1.2rem">👤 Contact Director / Secretary</div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Full Name <span class="req">*</span></label><input type="text" class="finput" id="tin_dir" placeholder="Director or Secretary name"/></div>
+      <div class="fgroup"><label class="flabel">NIN <span class="req">*</span></label><input type="text" class="finput" id="tin_dir_nin" placeholder="11-digit NIN" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">MEMART / CAC Certificate <span class="req">*</span></label><input type="file" class="finput" id="tin_doc_memart" accept=".pdf,.jpg,.png" style="padding:.5rem"/></div>
+      <div class="fgroup"><label class="flabel">Director ID</label><input type="file" class="finput" id="tin_doc_dir" accept=".pdf,.jpg,.png" style="padding:.5rem"/></div>
+    </div>
+  </div>
+
+  <div id="tin_pay_box" style="display:none" class="pay-box">
+    <div style="font-size:.8rem;color:var(--muted);margin-bottom:.3rem">Service Fee</div>
+    <div class="pay-amount">₦15,000</div>
+    <div style="font-size:.73rem;color:var(--muted);margin-top:.2rem">Includes all FIRS charges · Payment after confirmation</div>
+  </div>
+  <div id="tin_submit_wrap" style="display:none;margin-top:1.5rem">
+    <div class="fgroup"><label class="fcheck"><input type="checkbox" id="tin_decl"/> I confirm all information is accurate and authorise SmartPickup to file this TIN application on my behalf.</label></div>
+    <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
+      <button class="btn btn-primary btn-lg" onclick="submitTIN(false)" style="flex:1">📋 Submit (Pay Later)</button>
+      <button class="btn btn-pay btn-lg" onclick="submitTIN(true)" style="flex:1">💳 Pay ₦15,000 &amp; Submit</button>
+    </div>
+  </div>
+  </div>
+</div></div></div>
+<div id="footer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+let _tinType='';
+function selectTINType(type){
+  _tinType=type;
+  ['individual','business','company'].forEach(t=>{
+    document.getElementById('tin_type_'+t).style.background=t===type?'var(--primary)':'#fff';
+    document.getElementById('tin_type_'+t).style.color=t===type?'#fff':'var(--primary)';
+    document.getElementById('tin_type_'+t).style.borderColor=t===type?'var(--primary)':'var(--border)';
+    document.getElementById('tin_sec_'+t).style.display=t===type?'block':'none';
+  });
+  const labels={'individual':'👤 Individual TIN','business':'🏪 Business Name TIN','company':'🏛️ Company TIN'};
+  const banner=document.getElementById('tin_type_banner');
+  banner.style.display='block';
+  banner.textContent='Selected: '+labels[type]+' — ₦15,000';
+  document.getElementById('tin_pay_box').style.display='block';
+  document.getElementById('tin_submit_wrap').style.display='block';
+}
+async function submitTIN(payNow){
+  if(!_tinType){setAlert('tin-msg','❌ Please select a TIN type above.','danger');return;}
+  if(!document.getElementById('tin_decl').checked){setAlert('tin-msg','❌ Please agree to the declaration.','danger');return;}
+  let data={tinType:_tinType},phone='',email='',docFile=null;
+  if(_tinType==='individual'){
+    const sur=val('tin_surname'),fn=val('tin_firstname'),nin=val('tin_nin'),st=val('tin_state_ind');
+    phone=val('tin_phone_ind');email=val('tin_email_ind');
+    if(!sur||!fn||!nin||!phone||!st){setAlert('tin-msg','❌ Please fill all required fields.','danger');return;}
+    if(nin.length!==11){setAlert('tin-msg','❌ NIN must be exactly 11 digits.','danger');return;}
+    Object.assign(data,{surname:sur,firstName:fn,otherName:val('tin_othername'),dob:val('tin_dob'),nin,bvn:val('tin_bvn'),phone,email,address:val('tin_addr_ind'),state:st,lga:val('tin_lga_ind'),employer:val('tin_employer')});
+    docFile=document.getElementById('tin_doc_id');
+  } else if(_tinType==='business'){
+    const biz=val('tin_bizname'),bn=val('tin_bn'),prop=val('tin_prop'),nin=val('tin_prop_nin'),st=val('tin_state_biz');
+    phone=val('tin_phone_biz');email=val('tin_email_biz');
+    if(!biz||!bn||!prop||!nin||!phone||!st){setAlert('tin-msg','❌ Please fill all required fields.','danger');return;}
+    if(nin.length!==11){setAlert('tin-msg','❌ NIN must be exactly 11 digits.','danger');return;}
+    Object.assign(data,{businessName:biz,bnNo:bn,proprietor:prop,proprietorNin:nin,phone,email,address:val('tin_addr_biz'),state:st,lga:val('tin_lga_biz')});
+    docFile=document.getElementById('tin_doc_cac_biz');
+  } else {
+    const co=val('tin_coname'),rc=val('tin_rc'),cotype=val('tin_cotype'),dir=val('tin_dir'),nin=val('tin_dir_nin'),st=val('tin_state_co');
+    phone=val('tin_phone_co');email=val('tin_email_co');
+    if(!co||!rc||!cotype||!dir||!nin||!phone||!st){setAlert('tin-msg','❌ Please fill all required fields.','danger');return;}
+    if(nin.length!==11){setAlert('tin-msg','❌ Director NIN must be exactly 11 digits.','danger');return;}
+    Object.assign(data,{companyName:co,rcNo:rc,companyType:cotype,incDate:val('tin_incdate'),phone,email,address:val('tin_addr_co'),state:st,lga:val('tin_lga_co'),contactDirector:dir,directorNin:nin});
+    docFile=document.getElementById('tin_doc_memart');
+  }
+  data.phone=phone;
+  const user=auth.currentUser;
+  const doSave=async(ref=null)=>{
+    showLoading('Saving TIN application...');
+    try{
+      let fileUrl=null;
+      if(docFile&&docFile.files&&docFile.files[0]) fileUrl=await uploadFile(docFile.files[0],'tin/'+_tinType+'_'+Date.now());
+      await saveApplication('TIN Registration - '+_tinType,data,ref?'Paid':'Unpaid',fileUrl?{doc:fileUrl}:{});
+      hideLoading();
+      document.getElementById('tin-form').style.display='none';
+      document.getElementById('tin-success').style.display='block';
+      openAdminWhatsApp('TIN Registration ('+_tinType+')',user?user.email:email,phone);
+    }catch(e){hideLoading();setAlert('tin-msg','❌ Error: '+e.message+'. Please try again or WhatsApp us.','danger');}
+  };
+  if(payNow) payWithPaystack(15000,user?user.email:(email||phone+'@smartpickup.ng'),(r)=>doSave(r));
+  else await doSave();
+}
+</script>
+</body></html>

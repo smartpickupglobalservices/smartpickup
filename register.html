@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Register Free — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+</head>
+<body data-page="">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+
+<div class="auth-wrap">
+  <div class="auth-card" style="max-width:510px">
+    <div class="auth-head">
+      <div style="display:flex;align-items:center;justify-content:center;gap:.65rem;margin-bottom:.75rem">
+        <div style="width:38px;height:38px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="logo.png" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='🚀'"/></div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:800;color:#fff">SmartPickup Global</div>
+      </div>
+      <h2>Create Free Account</h2>
+      <p>Register once, login from any device forever. Access all services and track your applications.</p>
+    </div>
+    <div class="auth-body">
+      <div id="regMsg" style="display:none"></div>
+      <div class="frow">
+        <div class="fgroup"><label class="flabel">First Name <span class="req">*</span></label><input type="text" class="finput" id="regFirst" placeholder="First name"/></div>
+        <div class="fgroup"><label class="flabel">Last Name <span class="req">*</span></label><input type="text" class="finput" id="regLast" placeholder="Last name"/></div>
+      </div>
+      <div class="fgroup"><label class="flabel">Phone Number <span class="req">*</span></label><input type="tel" class="finput" id="regPhone" placeholder="+234 XXX XXX XXXX"/></div>
+      <div class="fgroup"><label class="flabel">Email Address <span class="req">*</span></label><input type="email" class="finput" id="regEmail" placeholder="your@email.com"/></div>
+      <div class="fgroup"><label class="flabel">State <span class="req">*</span></label>
+        <select class="fselect" id="regState">
+          <option value="">— Select your state —</option>
+          <option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option><option>Anambra</option><option>Bauchi</option><option>Bayelsa</option><option>Benue</option><option>Borno</option><option>Cross River</option><option>Delta</option><option>Ebonyi</option><option>Edo</option><option>Ekiti</option><option>Enugu</option><option>FCT Abuja</option><option>Gombe</option><option>Imo</option><option>Jigawa</option><option>Kaduna</option><option>Kano</option><option>Katsina</option><option>Kebbi</option><option>Kogi</option><option>Kwara</option><option>Lagos</option><option>Nasarawa</option><option>Niger</option><option>Ogun</option><option>Ondo</option><option>Osun</option><option>Oyo</option><option>Plateau</option><option>Rivers</option><option>Sokoto</option><option>Taraba</option><option>Yobe</option><option>Zamfara</option>
+        </select>
+      </div>
+      <div class="frow">
+        <div class="fgroup"><label class="flabel">Password <span class="req">*</span></label><input type="password" class="finput" id="regPass" placeholder="Min 6 characters" autocomplete="new-password"/></div>
+        <div class="fgroup"><label class="flabel">Confirm Password <span class="req">*</span></label><input type="password" class="finput" id="regPass2" placeholder="Repeat password" autocomplete="new-password"/></div>
+      </div>
+      <!-- Captcha -->
+      <div class="fgroup" style="background:var(--light);border:1.5px solid var(--border);border-radius:var(--r);padding:.95rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+        <div style="flex:1;min-width:145px">
+          <div style="font-size:.74rem;font-weight:700;color:var(--text);margin-bottom:.3rem">🤖 Security check:</div>
+          <div style="font-size:1.05rem;font-weight:800;color:var(--primary)" id="captchaQ">Loading...</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.38rem;flex-shrink:0">
+          <input type="number" class="finput" id="captchaAns" placeholder="=" style="width:78px;text-align:center;font-size:1rem;font-weight:700"/>
+          <button type="button" onclick="refreshCaptcha()" style="background:var(--light);border:1.5px solid var(--border);border-radius:var(--r);padding:.46rem .58rem;cursor:pointer;font-size:.88rem" title="Refresh">🔄</button>
+        </div>
+      </div>
+      <div class="fgroup"><label class="fcheck"><input type="checkbox" id="regTerms"/> I agree to the Terms &amp; Conditions. My account is saved securely — I can relogin anytime from any device.</label></div>
+      <button class="btn btn-gold btn-block btn-lg" onclick="doRegister()">✅ Create Account</button>
+      <div class="auth-switch">Already have an account? <a href="login.html">Sign In →</a></div>
+    </div>
+  </div>
+</div>
+<div id="footer"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+auth.onAuthStateChanged(user => { if (user) window.location.href = 'dashboard.html'; });
+
+async function doRegister() {
+  const first=val('regFirst'),last=val('regLast'),phone=val('regPhone');
+  const email=val('regEmail'),state=val('regState');
+  const pass=val('regPass'),pass2=val('regPass2');
+  const terms=document.getElementById('regTerms').checked;
+  const msg=document.getElementById('regMsg');
+
+  if (!first||!last||!phone||!email||!state||!pass) { setMsg(msg,'❌ Please fill all required fields.','danger'); return; }
+  if (pass!==pass2) { setMsg(msg,'❌ Passwords do not match.','danger'); return; }
+  if (pass.length<6) { setMsg(msg,'❌ Password must be at least 6 characters.','danger'); return; }
+  if (!terms) { setMsg(msg,'❌ Please agree to the Terms &amp; Conditions.','danger'); return; }
+  if (!verifyCaptcha()) { setMsg(msg,'❌ Security check failed. Solve the math question correctly.','danger'); refreshCaptcha(); return; }
+
+  showLoading('Creating your account...');
+  try {
+    const cred = await auth.createUserWithEmailAndPassword(email, pass);
+    await db.collection('users').doc(cred.user.uid).set({
+      firstName: first, lastName: last, phone, email, state,
+      role: 'client',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    hideLoading();
+    showToast('🎉 Welcome ' + first + '! Account created.', 'success');
+    setTimeout(() => window.location.href = 'dashboard.html', 900);
+  } catch (e) {
+    hideLoading();
+    const errs = {
+      'auth/email-already-in-use':      '❌ This email is already registered. <a href="login.html">Sign in instead →</a>',
+      'auth/invalid-email':             '❌ Please enter a valid email address.',
+      'auth/weak-password':             '❌ Password is too weak. Use at least 6 characters.',
+      'auth/configuration-not-found':   '❌ Firebase Authentication is not enabled yet. The site owner needs to enable Email/Password sign-in in the Firebase Console (Build → Authentication → Sign-in method → Email/Password → Enable). Contact: <a href="https://wa.me/2347063545065">WhatsApp Support</a>',
+      'auth/network-request-failed':    '❌ No internet connection. Please check your network and try again.',
+      'auth/too-many-requests':         '❌ Too many attempts. Please wait a few minutes and try again.',
+      'auth/internal-error':            '❌ Server error. Please try again or contact support on WhatsApp.'
+    };
+    setMsg(msg, errs[e.code] || '❌ Registration failed: ' + e.message, 'danger');
+  }
+}
+
+function setMsg(el, html, type) {
+  if (!el) return;
+  el.className = 'alert alert-' + type;
+  el.innerHTML = html;
+  el.style.display = 'block';
+}
+</script>
+</body>
+</html>

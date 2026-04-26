@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>NAFDAC Registration — SmartPickup</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+</head>
+<body data-page="nafdac">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero" style="background:linear-gradient(135deg,#006400,#004d00)">
+  <div class="page-hero-inner">
+    <div class="badge-row"><span class="h-badge hb-gold">💊 NAFDAC NAPAMS</span><span class="h-badge hb-white">Federal Agency</span></div>
+    <h1>NAFDAC Product Registration</h1>
+    <p>Register food, drugs, cosmetics, and packaged products via NAFDAC NAPAMS portal. Contact us for pricing after submission.</p>
+  </div>
+</div>
+<div style="background:var(--light);padding:2.5rem 5% 4rem">
+<div style="max-width:860px;margin:0 auto">
+<div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);box-shadow:var(--shadow);padding:2rem">
+  <div class="contact-bar">📞 <strong>+234 706 354 5065</strong> &nbsp;✉️ <strong>smartpickupglobalservices@gmail.com</strong></div>
+  <div class="alert alert-warn">⚠️ Do NOT pay yet. Submit form first — admin will contact you with pricing.</div>
+  <div id="nf-msg" style="display:none"></div>
+  <div id="nf-success" style="display:none;text-align:center;padding:2rem">
+    <div style="font-size:3.5rem;margin-bottom:.8rem">🎉</div>
+    <h3 style="font-family:'Playfair Display',serif;color:var(--primary)">NAFDAC Application Submitted!</h3>
+    <p style="color:var(--muted);margin:.5rem 0 1.5rem">Saved to cloud. Contact admin for pricing.</p>
+    <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+      <a href="https://wa.me/2347063545065?text=NAFDAC%20application%20submitted.%20Please%20send%20pricing." target="_blank" class="btn btn-wa btn-lg">💬 WhatsApp for Pricing</a>
+      <a href="dashboard.html" class="btn btn-primary">📊 Dashboard</a>
+    </div>
+  </div>
+  <div id="nf-form">
+  <div class="sec-title">🏢 Company Information</div>
+  <div class="fgroup"><label class="flabel">Company TIN (FIRS) <span class="req">*</span></label><input type="text" class="finput" id="nf_tin" placeholder="e.g. 12345678-0001"/></div>
+  <div class="frow"><div class="fgroup"><label class="flabel">Company Name <span class="req">*</span></label><input type="text" class="finput" id="nf_co" placeholder="Registered company name"/></div><div class="fgroup"><label class="flabel">RC Number (CAC) <span class="req">*</span></label><input type="text" class="finput" id="nf_rc" placeholder="BN or RC No."/></div></div>
+  <div class="frow"><div class="fgroup"><label class="flabel">Company Email <span class="req">*</span></label><input type="email" class="finput" id="nf_email" placeholder="office@company.com"/></div><div class="fgroup"><label class="flabel">Company Phone <span class="req">*</span></label><input type="tel" class="finput" id="nf_phone" placeholder="+234..."/></div></div>
+  <div class="fgroup"><label class="flabel">Company Address <span class="req">*</span></label><input type="text" class="finput" id="nf_addr" placeholder="Full registered address"/></div>
+  <div class="frow"><div class="fgroup"><label class="flabel">Agency Type <span class="req">*</span></label><select class="fselect" id="nf_agency"><option value="Government">Government</option><option value="Non-Governmental">Non-Governmental</option></select></div><div class="fgroup"><label class="flabel">Company Type <span class="req">*</span></label><select class="fselect" id="nf_type"><option value="Small Scale">Small Scale</option><option value="Medium/Large Scale">Medium / Large Scale</option><option value="Micro Enterprise">Micro Enterprise</option></select></div></div>
+  <div class="sec-title">💊 Product Information</div>
+  <div class="frow"><div class="fgroup"><label class="flabel">Brand / Product Name <span class="req">*</span></label><input type="text" class="finput" id="nf_brand" placeholder="Trade/brand name"/></div><div class="fgroup"><label class="flabel">Generic Name <span class="req">*</span></label><input type="text" class="finput" id="nf_generic" placeholder="e.g. Paracetamol, Shea Butter"/></div></div>
+  <div class="fgroup"><label class="flabel">Product Category <span class="req">*</span></label><select class="fselect" id="nf_cat"><option value="">— Select category —</option><option>Food and Beverages (Processed/Packaged)</option><option>Drugs / Pharmaceutical Products</option><option>Cosmetics and Personal Care Products</option><option>Packaged Water (Table/Sachet/Bottled)</option><option>Medical Devices and Equipment</option><option>Household / Industrial Chemicals</option><option>Herbal Medicines / Traditional Medicines</option><option>Nutritional Supplements / Vitamins</option><option>Baby Food / Infant Formula</option><option>Disinfectants / Sanitizers</option></select></div>
+  <div class="frow"><div class="fgroup"><label class="flabel">Pack Size / Unit <span class="req">*</span></label><input type="text" class="finput" id="nf_size" placeholder="e.g. 500ml, 100 tablets"/></div><div class="fgroup"><label class="flabel">Shelf Life <span class="req">*</span></label><input type="text" class="finput" id="nf_shelf" placeholder="e.g. 24 months from manufacture"/></div></div>
+  <div class="fgroup"><label class="flabel">Full Composition / Ingredients <span class="req">*</span></label><textarea class="ftextarea" id="nf_ingredients" placeholder="List all ingredients with quantities..."></textarea></div>
+  <div class="frow"><div class="fgroup"><label class="flabel">Country of Manufacture <span class="req">*</span></label><input type="text" class="finput" id="nf_origin" placeholder="e.g. Nigeria, China"/></div><div class="fgroup"><label class="flabel">Contact Person <span class="req">*</span></label><input type="text" class="finput" id="nf_contact" placeholder="Responsible officer name"/></div></div>
+  <div class="sec-title">📎 Documents</div>
+  <div class="alert alert-info">Required by NAFDAC NAPAMS portal.</div>
+  <div class="fgroup"><label class="flabel">CAC Certificate <span class="req">*</span></label><div class="file-upload"><input type="file" id="nf_doc_cac" accept=".pdf,.jpg,.png"/><div class="file-upload-icon">📜</div><div class="file-upload-text">PDF, JPG</div><div class="file-preview"></div></div></div>
+  <div class="fgroup"><label class="flabel">Product Labels — All Sides <span class="req">*</span></label><div class="file-upload"><input type="file" id="nf_doc_label" accept=".pdf,.jpg,.png" multiple/><div class="file-upload-icon">🏷️</div><div class="file-upload-text">Front, back, sides — select multiple</div><div class="file-preview"></div></div></div>
+  <div class="fgroup"><label class="flabel">Certificate of Analysis (CoA) <span class="req">*</span></label><div class="file-upload"><input type="file" id="nf_doc_coa" accept=".pdf,.jpg,.png"/><div class="file-upload-icon">🔬</div><div class="file-upload-text">Lab analysis certificate</div><div class="file-preview"></div></div></div>
+  <div class="fgroup"><label class="flabel">Letter of Authorization from Manufacturer</label><div class="file-upload"><input type="file" id="nf_doc_auth" accept=".pdf,.jpg,.png"/><div class="file-upload-icon">✉️</div><div class="file-upload-text">On official letterhead</div><div class="file-preview"></div></div></div>
+  <div class="fgroup"><label class="flabel">FIRS TIN Certificate <span class="req">*</span></label><div class="file-upload"><input type="file" id="nf_doc_tin" accept=".pdf,.jpg,.png"/><div class="file-upload-icon">🔢</div><div class="file-upload-text">TIN Certificate</div><div class="file-preview"></div></div></div>
+  <div class="fgroup"><label class="fcheck"><input type="checkbox" id="nf_decl"/> I declare all information is true. I authorise SmartPickup Global Services to process this NAFDAC application.</label></div>
+  <div style="margin-top:1.5rem"><button class="btn btn-success btn-block btn-lg" onclick="submitNAFDAC()">💊 Submit NAFDAC Application</button></div>
+  </div>
+</div></div></div>
+<div id="footer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+async function submitNAFDAC(){
+  if(!document.getElementById('nf_decl').checked){setAlert('nf-msg','❌ Please agree to the declaration.','danger');return;}
+  const user=auth.currentUser;
+  const data={tin:val('nf_tin'),company:val('nf_co'),rc:val('nf_rc'),email:val('nf_email'),phone:val('nf_phone'),address:val('nf_addr'),agencyType:val('nf_agency'),companyType:val('nf_type'),brand:val('nf_brand'),generic:val('nf_generic'),category:val('nf_cat'),packSize:val('nf_size'),shelfLife:val('nf_shelf'),ingredients:val('nf_ingredients'),origin:val('nf_origin'),contact:val('nf_contact')};
+  if(!data.company||!data.phone||!data.brand||!data.category){setAlert('nf-msg','❌ Fill all required fields.','danger');return;}
+  showLoading('Saving NAFDAC application...');
+  try{
+    let fileUrl=null;
+    const f=document.getElementById('nf_doc_cac');
+    if(f&&f.files&&f.files[0]) fileUrl=await uploadFile(f.files[0],'nafdac/'+Date.now());
+    await saveApplication('NAFDAC Product Registration',data,'Unpaid',fileUrl?{cacDoc:fileUrl}:{});
+    hideLoading();
+    document.getElementById('nf-form').style.display='none';
+    document.getElementById('nf-success').style.display='block';
+    openAdminWhatsApp('NAFDAC Registration',user?user.email:data.email,data.phone);
+  }catch(e){hideLoading();setAlert('nf-msg','❌ Error: '+e.message,'danger');}
+}
+</script>
+</body>
+</html>

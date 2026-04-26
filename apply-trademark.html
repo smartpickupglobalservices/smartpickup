@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Trademark Registration — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+</head>
+<body data-page="">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero" style="background:linear-gradient(135deg,#4a1a6b,#2d0050)">
+  <div class="page-hero-inner">
+    <div class="badge-row"><span class="h-badge hb-gold">™️ Trademark NIPO</span><span class="h-badge hb-white">Brand Protection</span></div>
+    <h1>Trademark Registration (NIPO/IPONL)</h1>
+    <p>Protect your brand name and logo. Logo upload, ID type, Class of Goods required. Contact us for pricing after submission.</p>
+  </div>
+</div>
+<div style="background:var(--light);padding:2.5rem 5% 4rem">
+<div style="max-width:860px;margin:0 auto">
+<div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);box-shadow:var(--shadow);padding:2rem">
+  <div class="contact-bar">📞 <strong>+234 706 354 5065</strong> &nbsp;✉️ <strong>smartpickupglobalservices@gmail.com</strong></div>
+  <div class="alert alert-warn">⚠️ Do NOT pay yet. Submit first — admin will contact you with current pricing.</div>
+  <div id="tm-msg" style="display:none"></div>
+  <div id="tm-success" style="display:none;text-align:center;padding:2rem">
+    <div style="font-size:3.5rem;margin-bottom:.8rem">🎉</div>
+    <h3 style="font-family:'Playfair Display',serif;color:var(--primary)">Trademark Application Submitted!</h3>
+    <p style="color:var(--muted);margin:.5rem 0 1.5rem">Saved. Contact admin for pricing and next steps.</p>
+    <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+      <a href="https://wa.me/2347063545065?text=I%20just%20submitted%20a%20Trademark%20application.%20Please%20send%20pricing." target="_blank" class="btn btn-wa btn-lg">💬 WhatsApp for Pricing</a>
+      <a href="dashboard.html" class="btn btn-primary">📊 Dashboard</a>
+    </div>
+  </div>
+  <div id="tm-form">
+    <div class="sec-title">™️ Brand / Trademark Details</div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Brand / Trademark Name <span class="req">*</span></label><input type="text" class="finput" id="tm_name" placeholder="Name to trademark"/></div>
+      <div class="fgroup"><label class="flabel">Type of Trademark <span class="req">*</span></label>
+        <select class="fselect" id="tm_type">
+          <option value="Word Mark">Word Mark (Name only)</option>
+          <option value="Logo/Device Mark">Logo / Device Mark</option>
+          <option value="Combined Mark">Combined Mark (Name + Logo)</option>
+        </select>
+      </div>
+    </div>
+    <div class="fgroup"><label class="flabel">Class of Goods / Services <span class="req">*</span></label>
+      <select class="fselect" id="tm_class">
+        <option value="">— Select class of goods —</option>
+        <option value="Class 3">Class 3 – Cosmetics &amp; Cleaning Products</option>
+        <option value="Class 5">Class 5 – Pharmaceuticals &amp; Health</option>
+        <option value="Class 9">Class 9 – Electronics &amp; Technology</option>
+        <option value="Class 16">Class 16 – Paper, Print, Stationery</option>
+        <option value="Class 25">Class 25 – Clothing &amp; Footwear</option>
+        <option value="Class 29">Class 29 – Food &amp; Beverages</option>
+        <option value="Class 30">Class 30 – Coffee, Tea, Confectionery</option>
+        <option value="Class 35">Class 35 – Business &amp; Advertising Services</option>
+        <option value="Class 36">Class 36 – Financial &amp; Insurance Services</option>
+        <option value="Class 38">Class 38 – Telecommunications</option>
+        <option value="Class 41">Class 41 – Education &amp; Entertainment</option>
+        <option value="Class 42">Class 42 – Technology &amp; IT Services</option>
+        <option value="Class 44">Class 44 – Medical &amp; Beauty Services</option>
+        <option value="Other">Other — to be confirmed</option>
+      </select>
+    </div>
+    <div class="fgroup"><label class="flabel">Description of Goods / Services <span class="req">*</span></label><textarea class="ftextarea" id="tm_desc" placeholder="Describe what this trademark covers..."></textarea></div>
+
+    <div class="sec-title">👤 Applicant / Owner Information</div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Full Name / Company Name <span class="req">*</span></label><input type="text" class="finput" id="tm_owner" placeholder="Owner full name or company"/></div>
+      <div class="fgroup"><label class="flabel">Applicant Type</label>
+        <select class="fselect" id="tm_btype"><option>Individual</option><option>Sole Proprietorship</option><option>Private Limited Company (LTD)</option></select>
+      </div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Phone Number <span class="req">*</span></label><input type="tel" class="finput" id="tm_phone" placeholder="+234..."/></div>
+      <div class="fgroup"><label class="flabel">Email Address <span class="req">*</span></label><input type="email" class="finput" id="tm_email" placeholder="email@example.com"/></div>
+    </div>
+    <div class="fgroup"><label class="flabel">Residential / Business Address <span class="req">*</span></label><input type="text" class="finput" id="tm_addr" placeholder="Full address"/></div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">ID Type <span class="req">*</span></label>
+        <select class="fselect" id="tm_idtype"><option>NIN Card</option><option>International Passport</option><option>Driver's License</option><option>Voter's Card</option></select>
+      </div>
+      <div class="fgroup"><label class="flabel">ID Number <span class="req">*</span></label><input type="text" class="finput" id="tm_idno" placeholder="NIN / Passport / License No."/></div>
+    </div>
+    <div class="fgroup"><label class="flabel">CAC Number (if registered)</label><input type="text" class="finput" id="tm_cac" placeholder="BN or RC (optional)"/></div>
+
+    <div class="sec-title">📎 Documents &amp; Logo Upload</div>
+    <div class="fgroup"><label class="flabel">Logo / Brand Image <span class="req">*</span></label>
+      <div class="file-upload"><input type="file" id="tm_doc_logo" accept=".jpg,.jpeg,.png,.pdf,.svg,.ai"/><div class="file-upload-icon">🖼️</div><div class="file-upload-text">JPG, PNG, PDF, SVG — clear high-resolution logo</div><div class="file-preview"></div></div>
+    </div>
+    <div class="fgroup"><label class="flabel">Valid ID Document <span class="req">*</span></label>
+      <div class="file-upload"><input type="file" id="tm_doc_id" accept=".pdf,.jpg,.jpeg,.png"/><div class="file-upload-icon">🪪</div><div class="file-upload-text">NIN Card / Passport / Driver's License</div><div class="file-preview"></div></div>
+    </div>
+    <div class="fgroup"><label class="flabel">Passport Photograph <span class="req">*</span></label>
+      <div class="file-upload"><input type="file" id="tm_doc_photo" accept=".jpg,.jpeg,.png"/><div class="file-upload-icon">📷</div><div class="file-upload-text">Recent passport photo (white background)</div><div class="file-preview"></div></div>
+    </div>
+    <div class="fgroup"><label class="flabel">CAC Certificate (if registered)</label>
+      <div class="file-upload"><input type="file" id="tm_doc_cac" accept=".pdf,.jpg,.png"/><div class="file-upload-icon">📜</div><div class="file-upload-text">PDF, JPG</div><div class="file-preview"></div></div>
+    </div>
+
+    <div class="fgroup"><label class="fcheck"><input type="checkbox" id="tm_decl"/> I declare all information is true. I authorise SmartPickup Global Services to process this Trademark application on my behalf.</label></div>
+    <div style="margin-top:1.5rem"><button class="btn btn-primary btn-block btn-lg" onclick="submitTrademark()">™️ Submit Trademark Application</button></div>
+    <div style="text-align:center;margin-top:.8rem;font-size:.79rem;color:var(--muted)">After submission, WhatsApp admin will open automatically for pricing confirmation.</div>
+  </div>
+</div></div></div>
+<div id="footer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+async function submitTrademark() {
+  if (!document.getElementById('tm_decl').checked) { setAlert('tm-msg','❌ Please agree to the declaration.','danger'); return; }
+  const user = auth.currentUser;
+  const data = {
+    brandName: val('tm_name'), type: val('tm_type'), trademarkClass: val('tm_class'),
+    desc: val('tm_desc'), owner: val('tm_owner'), applicantType: val('tm_btype'),
+    phone: val('tm_phone'), email: val('tm_email'), address: val('tm_addr'),
+    idType: val('tm_idtype'), idNo: val('tm_idno'), cac: val('tm_cac')
+  };
+  if (!data.brandName || !data.phone || !data.owner || !data.idNo) {
+    setAlert('tm-msg','❌ Please fill all required fields.','danger'); return;
+  }
+  showLoading('Uploading and saving application...');
+  try {
+    let fileUrl = null;
+    const f = document.getElementById('tm_doc_logo');
+    if (f && f.files && f.files[0]) fileUrl = await uploadFile(f.files[0], 'trademark/' + Date.now());
+    await saveApplication('Trademark Registration (NIPO)', data, 'Unpaid', fileUrl ? { logo: fileUrl } : {});
+    hideLoading();
+    document.getElementById('tm-form').style.display = 'none';
+    document.getElementById('tm-success').style.display = 'block';
+    openAdminWhatsApp('Trademark Registration', user ? user.email : data.email, data.phone);
+  } catch(e) { hideLoading(); setAlert('tm-msg','❌ Error: '+e.message,'danger'); }
+}
+</script>
+</body>
+</html>

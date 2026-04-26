@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Export Certificate — SmartPickup</title><link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/></head>
+<body data-page=""><div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero"><div class="page-hero-inner"><h1>🌍 Export Certificate</h1><p>Certificate of Origin · NEPC · Phytosanitary · SON Export Permit · Form M</p></div></div>
+<section class="section"><div class="container" style="max-width:700px">
+  <div id="exp-success" style="display:none;padding:2rem;text-align:center" class="alert alert-success">✅ <strong>Application received!</strong> We will contact you within 24 hours to confirm documents needed.<br/><br/><a href="dashboard.html" class="btn btn-primary" style="margin-top:.8rem">📊 Track on Dashboard</a></div>
+  <div id="exp-form" class="card" style="padding:2rem">
+    <div class="sec-title">🌍 Export Certificate Application</div>
+    <div id="exp-msg"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div class="fgroup" style="margin:0"><label class="flabel">Certificate Type *</label>
+        <select class="fselect" id="exp_type">
+          <option value="">— Select —</option>
+          <option value="Certificate of Origin">Certificate of Origin (NCS)</option>
+          <option value="NEPC Certificate">NEPC Export Certificate</option>
+          <option value="Phytosanitary">Phytosanitary Certificate (NAQS)</option>
+          <option value="SON Export Permit">SON Export Permit</option>
+          <option value="Form M">Form M (Import/Export)</option>
+          <option value="SGD">Single Goods Declaration (SGD)</option>
+        </select>
+      </div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Exporter / Company Name *</label><input class="finput" id="exp_company" placeholder="Registered business name"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">CAC Number *</label><input class="finput" id="exp_cac" placeholder="RC / BN Number"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">TIN Number</label><input class="finput" id="exp_tin" placeholder="Tax ID Number"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Contact Name *</label><input class="finput" id="exp_contact" placeholder="Full name of contact person"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">WhatsApp Number *</label><input class="finput" id="exp_phone" placeholder="08012345678"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Email Address</label><input class="finput" id="exp_email" type="email" placeholder="your@email.com"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Destination Country *</label><input class="finput" id="exp_country" placeholder="e.g. United Kingdom, China"/></div>
+      <div class="fgroup" style="margin:0" style="grid-column:1/-1"><label class="flabel">Product / Goods Description *</label><input class="finput" id="exp_goods" placeholder="e.g. Dried cassava, Shea butter, 1000kg"/></div>
+    </div>
+    <div class="fgroup"><label class="flabel">Upload CAC Certificate / Documents (optional)</label><input type="file" id="exp_doc" accept=".pdf,.jpg,.jpeg,.png"/></div>
+    <div class="pay-box">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:.3rem">Service Fee</div>
+      <div class="pay-amount">₦25,000 – ₦80,000</div>
+      <div style="font-size:.73rem;color:var(--muted);margin-top:.2rem">Exact fee confirmed after review of documents</div>
+    </div>
+    <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
+      <button class="btn btn-primary btn-lg" onclick="submitExport()" style="flex:1">📋 Submit Application</button>
+      <a href="https://wa.me/2347063545065?text=Hello%20SmartPickup%2C%20I%20need%20an%20Export%20Certificate" target="_blank" class="btn btn-wa btn-lg" style="flex:1">💬 WhatsApp Us</a>
+    </div>
+  </div>
+</div></section>
+<div id="footer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+async function submitExport(){
+  const type=val('exp_type'),company=val('exp_company'),cac=val('exp_cac'),contact=val('exp_contact'),phone=val('exp_phone'),goods=val('exp_goods'),country=val('exp_country');
+  if(!type||!company||!contact||!phone||!goods||!country){setAlert('exp-msg','Please fill all required fields.','danger');return;}
+  const user=auth.currentUser;
+  const data={certType:type,company,cac,tin:val('exp_tin'),contact,phone,email:val('exp_email'),country,goods};
+  showLoading('Submitting application...');
+  try{
+    let fileUrl=null;const f=document.getElementById('exp_doc');
+    if(f&&f.files&&f.files[0]) fileUrl=await uploadFile(f.files[0],'export/'+Date.now());
+    await saveApplication('Export Certificate - '+type,data,'Unpaid',fileUrl?{doc:fileUrl}:{});
+    hideLoading();document.getElementById('exp-form').style.display='none';document.getElementById('exp-success').style.display='block';
+    openAdminWhatsApp('Export Certificate - '+type,user?user.email:val('exp_email'),phone);
+  }catch(e){hideLoading();setAlert('exp-msg','Error: '+e.message,'danger');}
+}
+</script></body></html>

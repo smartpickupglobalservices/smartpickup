@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Exam Pins — SmartPickup</title><link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/></head>
+<body data-page=""><div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero"><div class="page-hero-inner"><h1>📋 Exam Result Checker Pins</h1><p>WAEC · NECO · NABTEB · Delivered to your WhatsApp instantly</p></div></div>
+<section class="section"><div class="container" style="max-width:660px">
+  <div id="pins-success" style="display:none;padding:2rem;text-align:center" class="alert alert-success">✅ <strong>Order received!</strong> Your pin(s) will be sent to your WhatsApp within 30 minutes.<br/><br/><a href="dashboard.html" class="btn btn-primary" style="margin-top:.8rem">📊 Track on Dashboard</a></div>
+  <div id="pins-form" class="card" style="padding:2rem">
+    <div class="sec-title">📋 Order Exam Pins</div>
+    <div id="pins-msg"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div class="fgroup" style="margin:0"><label class="flabel">Exam Body *</label>
+        <select class="fselect" id="pin_type" onchange="updatePinPrice()"><option value="">— Select —</option><option value="WAEC" data-price="1000">WAEC Checker — ₦1,000</option><option value="NECO" data-price="800">NECO Checker — ₦800</option><option value="NABTEB" data-price="800">NABTEB Checker — ₦800</option><option value="WAEC GCE" data-price="1000">WAEC GCE — ₦1,000</option></select>
+      </div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Quantity *</label>
+        <select class="fselect" id="pin_qty" onchange="updatePinPrice()"><option value="1">1 Pin</option><option value="2">2 Pins</option><option value="3">3 Pins</option><option value="5">5 Pins</option><option value="10">10 Pins</option></select>
+      </div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Full Name *</label><input class="finput" id="pin_name" placeholder="Your full name"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">WhatsApp Number *</label><input class="finput" id="pin_phone" placeholder="Pins delivered here"/></div>
+    </div>
+    <div id="pin-price-box" class="pay-box" style="margin-top:1rem;display:none"><div style="font-size:.8rem;color:var(--muted);margin-bottom:.3rem">Total</div><div class="pay-amount" id="pin-total">₦0</div></div>
+    <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
+      <button class="btn btn-primary btn-lg" onclick="submitPins(false)" style="flex:1">📋 Submit (Pay Later)</button>
+      <button class="btn btn-pay btn-lg" onclick="submitPins(true)" style="flex:1">💳 Pay &amp; Submit</button>
+    </div>
+    <div style="margin-top:.7rem;font-size:.75rem;color:var(--muted);text-align:center">Pins delivered via WhatsApp within 30 minutes of payment</div>
+  </div>
+</div></section>
+<div id="footer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+let _pinAmt=0;
+function updatePinPrice(){const sel=document.getElementById('pin_type');const qty=parseInt(document.getElementById('pin_qty').value)||1;const opt=sel.options[sel.selectedIndex];const up=parseInt(opt.getAttribute('data-price')||0);_pinAmt=up*qty;const box=document.getElementById('pin-price-box');const tot=document.getElementById('pin-total');if(_pinAmt>0){box.style.display='block';tot.textContent='N'+_pinAmt.toLocaleString();}else box.style.display='none';}
+async function submitPins(payNow){
+  const type=val('pin_type'),name=val('pin_name'),phone=val('pin_phone'),qty=document.getElementById('pin_qty').value;
+  if(!type){setAlert('pins-msg','Please select exam body.','danger');return;}
+  if(!name||!phone){setAlert('pins-msg','Please fill name and WhatsApp number.','danger');return;}
+  const user=auth.currentUser;const data={examType:type,quantity:qty,amount:_pinAmt,name,phone};
+  const doSave=async(ref=null)=>{showLoading('Saving order...');try{await saveApplication(type+' Pin x'+qty,data,ref?'Paid':'Unpaid',{});hideLoading();document.getElementById('pins-form').style.display='none';document.getElementById('pins-success').style.display='block';openAdminWhatsApp(type+' Pin x'+qty,user?user.email:phone,phone);}catch(e){hideLoading();setAlert('pins-msg','Error: '+e.message,'danger');}};
+  if(payNow)payWithPaystack(_pinAmt,user?user.email:phone+'@smartpickup.ng',(r)=>doSave(r));else await doSave();
+}
+</script></body></html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SCUML Registration — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+<style>
+.person-card{background:var(--light);border:1.5px solid var(--border);border-radius:var(--r);padding:1.2rem;margin-bottom:1rem;}
+.person-card-title{font-weight:800;color:var(--primary);font-size:.88rem;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:2px solid var(--gold);}
+.sc-type-tab{border:2px solid var(--border);background:#fff;border-radius:var(--r);padding:.85rem;text-align:center;cursor:pointer;transition:all .22s;color:var(--primary);}
+.sc-type-tab.active{background:var(--primary);border-color:var(--primary);color:#fff;}
+</style>
+</head>
+<body data-page="scuml">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero" style="background:linear-gradient(135deg,#1a2a4a,#0d1f38)">
+  <div class="page-hero-inner">
+    <div class="badge-row"><span class="h-badge hb-gold">🛡️ SCUML / EFCC</span><span class="h-badge hb-white">AML Compliance</span></div>
+    <h1>SCUML Registration (DNFBPs)</h1>
+    <p>Mandatory AML compliance. Submit — admin contacts you with exact pricing within 24 hours.</p>
+  </div>
+</div>
+<div style="background:var(--light);padding:2.5rem 5% 4rem">
+<div style="max-width:900px;margin:0 auto">
+<div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);box-shadow:var(--shadow);padding:2rem">
+  <div class="contact-bar">📞 <strong>+234 706 354 5065</strong> &nbsp;✉️ <strong>smartpickupglobalservices@gmail.com</strong></div>
+  <div class="alert alert-warn">⚠️ Do NOT pay yet. Submit first — admin will contact you within 24 hours with exact pricing.</div>
+  <div id="sc-msg" style="display:none"></div>
+  <div id="sc-success" style="display:none;text-align:center;padding:2rem">
+    <div style="font-size:3.5rem;margin-bottom:.8rem">🎉</div>
+    <h3 style="font-family:'Playfair Display',serif;color:var(--primary)">SCUML Application Submitted!</h3>
+    <p style="color:var(--muted);margin:.5rem 0 1.5rem">Saved successfully. Admin will contact you within 24 hours with pricing.</p>
+    <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+      <a href="https://wa.me/2347063545065?text=SCUML%20submitted.%20Please%20send%20pricing." target="_blank" class="btn btn-wa btn-lg">💬 WhatsApp for Pricing</a>
+      <a href="dashboard.html" class="btn btn-primary">📊 My Dashboard</a>
+    </div>
+  </div>
+  <div id="sc-form">
+
+  <!-- ENTITY TYPE SELECTOR -->
+  <div class="sec-title">📋 SCUML Applicant Type</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;margin-bottom:1.5rem">
+    <div class="sc-type-tab active" id="sct_bn" onclick="switchSCType('bn')"><div style="font-size:1.4rem">🏪</div><div style="font-weight:800;font-size:.85rem;margin-top:.25rem">Business Name</div><div style="font-size:.7rem;opacity:.7">Sole Prop / Partnership</div></div>
+    <div class="sc-type-tab" id="sct_co" onclick="switchSCType('co')"><div style="font-size:1.4rem">🏛️</div><div style="font-weight:800;font-size:.85rem;margin-top:.25rem">Company (LTD/PLC)</div><div style="font-size:.7rem;opacity:.7">Directors &amp; BVN required</div></div>
+    <div class="sc-type-tab" id="sct_it" onclick="switchSCType('it')"><div style="font-size:1.4rem">🤝</div><div style="font-weight:800;font-size:.85rem;margin-top:.25rem">Incorporated Trustees</div><div style="font-size:.7rem;opacity:.7">NGO / Association</div></div>
+    <div class="sc-type-tab" id="sct_ind" onclick="switchSCType('ind')"><div style="font-size:1.4rem">👤</div><div style="font-weight:800;font-size:.85rem;margin-top:.25rem">Individual / Sole Practitioner</div><div style="font-size:.7rem;opacity:.7">Self-employed DNFBP</div></div>
+  </div>
+
+  <!-- DNFBP CATEGORY -->
+  <div class="sec-title">🏷️ DNFBP Category</div>
+  <div class="fgroup">
+    <label class="flabel">Select Your Business Category <span class="req">*</span></label>
+    <select class="fselect" id="sc_cat">
+      <option value="">— Select DNFBP Category —</option>
+      <optgroup label="Dealers">
+        <option>Dealers in Jewellery, Precious Stones &amp; Metals</option>
+        <option>Dealers in Luxury Goods (Watches, Bags, etc.)</option>
+        <option>Dealers in Luxury / High-Value Automobiles</option>
+        <option>Dealers in Works of Art &amp; Antiques</option>
+      </optgroup>
+      <optgroup label="Real Estate &amp; Construction">
+        <option>Real Estate Agents / Brokers</option>
+        <option>Real Estate Developers</option>
+        <option>Estate Surveyors &amp; Valuers</option>
+        <option>Construction Companies</option>
+      </optgroup>
+      <optgroup label="Professional Services">
+        <option>Law Firms / Legal Practitioners</option>
+        <option>Accounting Firms / Chartered Accountants</option>
+        <option>Audit Firms</option>
+        <option>Tax Consultants / Advisors</option>
+        <option>Trust &amp; Company Service Providers (TCSPs)</option>
+        <option>Consultancy / Business Advisory Firms</option>
+      </optgroup>
+      <optgroup label="Hospitality &amp; Retail">
+        <option>Hotels &amp; Hospitality Businesses</option>
+        <option>Supermarkets &amp; High-Value Retail Stores</option>
+      </optgroup>
+      <optgroup label="Gaming &amp; Betting">
+        <option>Casinos</option>
+        <option>Pool Betting / Lottery / Gambling</option>
+      </optgroup>
+      <optgroup label="Non-Profit / NGO">
+        <option>Non-Governmental Organizations (NGOs)</option>
+        <option>Religious Organizations</option>
+        <option>Charities &amp; Foundations</option>
+        <option>Professional Associations &amp; Clubs</option>
+      </optgroup>
+      <optgroup label="Other">
+        <option>Clearing &amp; Forwarding Companies</option>
+        <option>Mechanized Farming / Agro-Allied</option>
+        <option>High Value Dealers (≥₦5M per transaction)</option>
+        <option>Other DNFBP</option>
+      </optgroup>
+    </select>
+  </div>
+
+  <!-- BUSINESS INFO (shared) -->
+  <div class="sec-title">🏢 Business / Organisation Information</div>
+  <div class="frow">
+    <div class="fgroup"><label class="flabel">Registered Name <span class="req">*</span></label><input class="finput" id="sc_biz" placeholder="As on CAC certificate"/></div>
+    <div class="fgroup"><label class="flabel">CAC Registration No. <span class="req">*</span></label><input class="finput" id="sc_cac" placeholder="BN / RC / IT Number"/></div>
+  </div>
+  <div class="frow">
+    <div class="fgroup"><label class="flabel">TIN (FIRS) <span class="req">*</span></label><input class="finput" id="sc_tin" placeholder="FIRS TIN" oninput="this.value=this.value.replace(/[^0-9-]/g,'')"/></div>
+    <div class="fgroup"><label class="flabel">Date of Commencement <span class="req">*</span></label><input type="date" class="finput" id="sc_date"/></div>
+  </div>
+  <div class="fgroup"><label class="flabel">Business Description <span class="req">*</span></label><textarea class="ftextarea" id="sc_desc" placeholder="Describe business activities in detail..."></textarea></div>
+  <div class="fgroup"><label class="flabel">Business Address <span class="req">*</span></label><input class="finput" id="sc_addr" placeholder="Full street address"/></div>
+  <div class="frow">
+    <div class="fgroup"><label class="flabel">State <span class="req">*</span></label>
+      <select class="fselect" id="sc_state"><option value="">— Select State —</option><option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option><option>Anambra</option><option>Bauchi</option><option>Bayelsa</option><option>Benue</option><option>Borno</option><option>Cross River</option><option>Delta</option><option>Ebonyi</option><option>Edo</option><option>Ekiti</option><option>Enugu</option><option>FCT Abuja</option><option>Gombe</option><option>Imo</option><option>Jigawa</option><option>Kaduna</option><option>Kano</option><option>Katsina</option><option>Kebbi</option><option>Kogi</option><option>Kwara</option><option>Lagos</option><option>Nasarawa</option><option>Niger</option><option>Ogun</option><option>Ondo</option><option>Osun</option><option>Oyo</option><option>Plateau</option><option>Rivers</option><option>Sokoto</option><option>Taraba</option><option>Yobe</option><option>Zamfara</option></select>
+    </div>
+    <div class="fgroup"><label class="flabel">LGA <span class="req">*</span></label><input class="finput" id="sc_lga" placeholder="Local Government Area"/></div>
+  </div>
+  <div class="frow">
+    <div class="fgroup"><label class="flabel">Business Phone <span class="req">*</span></label><input type="tel" class="finput" id="sc_phone" placeholder="08012345678" oninput="this.value=this.value.replace(/[^0-9+]/g,'')"/></div>
+    <div class="fgroup"><label class="flabel">Business Email <span class="req">*</span></label><input type="email" class="finput" id="sc_email" placeholder="office@business.com"/></div>
+  </div>
+  <div class="frow">
+    <div class="fgroup"><label class="flabel">Bank Name <span class="req">*</span></label><input class="finput" id="sc_bank" placeholder="e.g. First Bank"/></div>
+    <div class="fgroup"><label class="flabel">Account Number <span class="req">*</span></label><input class="finput" id="sc_acct" placeholder="10-digit account" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/></div>
+  </div>
+
+  <!-- BUSINESS NAME — Partners section -->
+  <div id="sc_bn_wrap">
+    <div class="sec-title">👥 Business Name — Proprietor / Partners</div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Business Type <span class="req">*</span></label>
+        <select class="fselect" id="sc_bn_type" onchange="renderSCPartners()">
+          <option value="Sole Proprietorship">Sole Proprietorship</option>
+          <option value="Partnership">Partnership</option>
+        </select>
+      </div>
+      <div class="fgroup" id="sc_partner_count_wrap" style="display:none">
+        <label class="flabel">Number of Partners</label>
+        <select class="fselect" id="sc_partner_count" onchange="renderSCPartners()">
+          <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+        </select>
+      </div>
+    </div>
+    <div id="sc_partners_wrap"></div>
+  </div>
+
+  <!-- COMPANY — Directors section -->
+  <div id="sc_co_wrap" style="display:none">
+    <div class="sec-title">👥 Company Directors</div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Number of Directors <span class="req">*</span></label>
+        <select class="fselect" id="sc_dir_count" onchange="renderSCDirectors()">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+        </select>
+      </div>
+    </div>
+    <div id="sc_directors_wrap"></div>
+  </div>
+
+  <!-- INCORPORATED TRUSTEES section -->
+  <div id="sc_it_wrap" style="display:none">
+    <div class="sec-title">🤝 Trustees Details</div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Number of Trustees <span class="req">*</span></label>
+        <select class="fselect" id="sc_trustee_count" onchange="renderSCTrustees()">
+          <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+        </select>
+      </div>
+    </div>
+    <div id="sc_trustees_wrap"></div>
+  </div>
+
+  <!-- INDIVIDUAL section -->
+  <div id="sc_ind_wrap" style="display:none">
+    <div class="sec-title">👤 Individual / Practitioner Details</div>
+    <div id="sc_individual_wrap"></div>
+  </div>
+
+  <!-- DOCUMENTS -->
+  <div class="sec-title">📎 Documents <span style="font-size:.77rem;font-weight:400;color:var(--muted)">(Upload if available — you can send via WhatsApp later)</span></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+    <div class="fgroup" style="margin:0"><label class="flabel">CAC Certificate <span class="req">*</span></label><input type="file" class="finput" id="sc_doc_cac" accept=".pdf,.jpg,.png" style="padding:.5rem"/></div>
+    <div class="fgroup" style="margin:0"><label class="flabel">Valid ID (NIN Card / Passport) <span class="req">*</span></label><input type="file" class="finput" id="sc_doc_id" accept=".pdf,.jpg,.png" style="padding:.5rem"/></div>
+    <div class="fgroup" style="margin:0"><label class="flabel">Passport Photo</label><input type="file" class="finput" id="sc_doc_photo" accept=".jpg,.png" style="padding:.5rem"/></div>
+    <div class="fgroup" style="margin:0"><label class="flabel">TIN Certificate</label><input type="file" class="finput" id="sc_doc_tin" accept=".pdf,.jpg,.png" style="padding:.5rem"/></div>
+    <div class="fgroup" style="margin:0"><label class="flabel">Tax Clearance (optional)</label><input type="file" class="finput" id="sc_doc_tax" accept=".pdf,.jpg,.png" style="padding:.5rem"/></div>
+    <div class="fgroup" style="margin:0"><label class="flabel">Utility Bill (optional)</label><input type="file" class="finput" id="sc_doc_util" accept=".pdf,.jpg,.png" style="padding:.5rem"/></div>
+    <div class="fgroup" style="margin:0"><label class="flabel">Bank Statement (optional)</label><input type="file" class="finput" id="sc_doc_bank" accept=".pdf,.jpg,.png" style="padding:.5rem"/></div>
+  </div>
+
+  <div class="fgroup" style="margin-top:1.5rem"><label class="fcheck"><input type="checkbox" id="sc_decl"/> I declare all information is true and accurate. I authorise SmartPickup Global Services to process this SCUML registration on my behalf.</label></div>
+  <div style="margin-top:1.2rem"><button class="btn btn-primary btn-block btn-lg" onclick="submitSCUML()">🛡️ Submit SCUML Application</button></div>
+  </div>
+</div></div></div>
+<div id="footer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+const STATES_OPT='<option value="">— State —</option><option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option><option>Anambra</option><option>Bauchi</option><option>Bayelsa</option><option>Benue</option><option>Borno</option><option>Cross River</option><option>Delta</option><option>Ebonyi</option><option>Edo</option><option>Ekiti</option><option>Enugu</option><option>FCT Abuja</option><option>Gombe</option><option>Imo</option><option>Jigawa</option><option>Kaduna</option><option>Kano</option><option>Katsina</option><option>Kebbi</option><option>Kogi</option><option>Kwara</option><option>Lagos</option><option>Nasarawa</option><option>Niger</option><option>Ogun</option><option>Ondo</option><option>Osun</option><option>Oyo</option><option>Plateau</option><option>Rivers</option><option>Sokoto</option><option>Taraba</option><option>Yobe</option><option>Zamfara</option>';
+let _scType='bn';
+
+function switchSCType(t){
+  _scType=t;
+  ['bn','co','it','ind'].forEach(x=>{
+    document.getElementById('sct_'+x).classList.toggle('active',x===t);
+    document.getElementById('sc_'+x+'_wrap').style.display=x===t?'block':'none';
+  });
+}
+
+function personFormSC(prefix,label,isMandatory,requireBVN){
+  const req=isMandatory?'<span class="req">*</span>':'';
+  const bvnReq=requireBVN?'<span class="req">*</span>':'';
+  return `<div class="person-card">
+    <div class="person-card-title">${label}</div>
+    <div class="frow3">
+      <div class="fgroup"><label class="flabel">First Name ${req}</label><input class="finput" id="${prefix}_f" placeholder="First name"/></div>
+      <div class="fgroup"><label class="flabel">Middle Name</label><input class="finput" id="${prefix}_m" placeholder="Middle name"/></div>
+      <div class="fgroup"><label class="flabel">Last Name ${req}</label><input class="finput" id="${prefix}_l" placeholder="Last name"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">NIN ${req}</label><input class="finput" id="${prefix}_nin" placeholder="11-digit NIN" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/></div>
+      <div class="fgroup"><label class="flabel">BVN ${bvnReq}</label><input class="finput" id="${prefix}_bvn" placeholder="11-digit BVN" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/></div>
+    </div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Date of Birth ${req}</label><input type="date" class="finput" id="${prefix}_dob"/></div>
+      <div class="fgroup"><label class="flabel">State of Origin ${req}</label><select class="fselect" id="${prefix}_state">${STATES_OPT}</select></div>
+    </div>
+    <div class="fgroup"><label class="flabel">Residential Address ${req}</label><input class="finput" id="${prefix}_addr" placeholder="Full residential address"/></div>
+    <div class="frow">
+      <div class="fgroup"><label class="flabel">Phone</label><input type="tel" class="finput" id="${prefix}_phone" placeholder="08012345678" oninput="this.value=this.value.replace(/[^0-9+]/g,'')"/></div>
+      <div class="fgroup"><label class="flabel">Email</label><input type="email" class="finput" id="${prefix}_email" placeholder="email"/></div>
+    </div>
+  </div>`;
+}
+
+function readPersonSC(prefix){
+  const g=id=>(document.getElementById(id)||{}).value||'';
+  return{firstName:g(prefix+'_f'),middleName:g(prefix+'_m'),lastName:g(prefix+'_l'),nin:g(prefix+'_nin'),bvn:g(prefix+'_bvn'),dob:g(prefix+'_dob'),stateOfOrigin:g(prefix+'_state'),address:g(prefix+'_addr'),phone:g(prefix+'_phone'),email:g(prefix+'_email')};
+}
+
+function renderSCPartners(){
+  const t=document.getElementById('sc_bn_type').value;
+  const cw=document.getElementById('sc_partner_count_wrap');
+  const wrap=document.getElementById('sc_partners_wrap');
+  if(t==='Sole Proprietorship'){cw.style.display='none';wrap.innerHTML=personFormSC('sc_p1','👤 Proprietor (Mandatory — BVN Required)',true,true);}
+  else{cw.style.display='block';const count=parseInt(document.getElementById('sc_partner_count').value||2);let html='';for(let i=1;i<=count;i++)html+=personFormSC('sc_p'+i,'👤 Partner '+i+(i<=2?' (Mandatory)':''),i<=2,true);wrap.innerHTML=html;}
+}
+
+function renderSCDirectors(){
+  const count=parseInt(document.getElementById('sc_dir_count').value||1);
+  let html='';
+  for(let i=1;i<=count;i++)html+=personFormSC('sc_d'+i,'👤 Director '+i+(i===1?' (Mandatory)':''),i===1,true);
+  document.getElementById('sc_directors_wrap').innerHTML=html;
+}
+
+function renderSCTrustees(){
+  const count=parseInt(document.getElementById('sc_trustee_count').value||2);
+  let html='';
+  for(let i=1;i<=count;i++){
+    let lbl=i===1?'👑 Chairman (Trustee 1 — Mandatory)':i===2?'📋 Secretary (Trustee 2 — Mandatory)':'👤 Trustee '+i;
+    html+=personFormSC('sc_it'+i,lbl,i<=2,true);
+  }
+  document.getElementById('sc_trustees_wrap').innerHTML=html;
+}
+
+// init
+renderSCPartners();
+renderSCDirectors();
+renderSCTrustees();
+document.getElementById('sc_individual_wrap').innerHTML=personFormSC('sc_ind1','👤 Individual / Practitioner Details (Mandatory)',true,true);
+
+async function submitSCUML(){
+  if(!document.getElementById('sc_decl').checked){setAlert('sc-msg','❌ Please agree to the declaration.','danger');return;}
+  const bizName=val('sc_biz'),cacNo=val('sc_cac'),category=val('sc_cat'),phone=val('sc_phone'),state=val('sc_state');
+  if(!bizName){setAlert('sc-msg','❌ Business / organisation name is required.','danger');return;}
+  if(!category){setAlert('sc-msg','❌ Please select a DNFBP category.','danger');return;}
+  if(!cacNo){setAlert('sc-msg','❌ CAC registration number is required.','danger');return;}
+  if(!phone){setAlert('sc-msg','❌ Business phone is required.','danger');return;}
+  if(!state){setAlert('sc-msg','❌ Please select your state.','danger');return;}
+
+  let persons=[];
+  if(_scType==='bn'){
+    const t=document.getElementById('sc_bn_type').value;
+    const count=t==='Partnership'?parseInt(document.getElementById('sc_partner_count').value||2):1;
+    for(let i=1;i<=count;i++){
+      const p=readPersonSC('sc_p'+i);
+      if(i<=1&&(!p.firstName||!p.nin)){setAlert('sc-msg','❌ Proprietor / Partner 1 first name and NIN are required.','danger');return;}
+      if(p.nin&&p.nin.length!==11){setAlert('sc-msg','❌ Partner '+i+' NIN must be 11 digits.','danger');return;}
+      if(!p.bvn||p.bvn.length!==11){setAlert('sc-msg','❌ Partner '+i+' BVN is mandatory and must be 11 digits.','danger');return;}
+      persons.push({role:t==='Sole Proprietorship'?'Proprietor':'Partner '+i,...p});
+    }
+  } else if(_scType==='co'){
+    const count=parseInt(document.getElementById('sc_dir_count').value||1);
+    for(let i=1;i<=count;i++){
+      const p=readPersonSC('sc_d'+i);
+      if(i===1&&(!p.firstName||!p.nin)){setAlert('sc-msg','❌ Director 1 name and NIN are required.','danger');return;}
+      if(p.nin&&p.nin.length!==11){setAlert('sc-msg','❌ Director '+i+' NIN must be 11 digits.','danger');return;}
+      if(!p.bvn||p.bvn.length!==11){setAlert('sc-msg','❌ Director '+i+' BVN is mandatory and must be 11 digits.','danger');return;}
+      persons.push({role:'Director '+i,...p});
+    }
+  } else if(_scType==='it'){
+    const count=parseInt(document.getElementById('sc_trustee_count').value||2);
+    for(let i=1;i<=count;i++){
+      const p=readPersonSC('sc_it'+i);
+      if(i<=2&&(!p.firstName||!p.nin)){setAlert('sc-msg','❌ Trustee '+i+' name and NIN are required.','danger');return;}
+      if(p.nin&&p.nin.length!==11){setAlert('sc-msg','❌ Trustee '+i+' NIN must be 11 digits.','danger');return;}
+      if(!p.bvn||p.bvn.length!==11){setAlert('sc-msg','❌ Trustee '+i+' BVN is mandatory and must be 11 digits.','danger');return;}
+      persons.push({role:i===1?'Chairman':i===2?'Secretary':'Trustee '+(i-2),...p});
+    }
+  } else {
+    const p=readPersonSC('sc_ind1');
+    if(!p.firstName||!p.nin){setAlert('sc-msg','❌ Individual first name and NIN are required.','danger');return;}
+    if(p.nin.length!==11){setAlert('sc-msg','❌ NIN must be 11 digits.','danger');return;}
+    if(!p.bvn||p.bvn.length!==11){setAlert('sc-msg','❌ BVN is mandatory and must be 11 digits.','danger');return;}
+    persons.push({role:'Individual',...p});
+  }
+
+  const user=auth.currentUser;
+  const data={applicantType:_scType,bizName,cacNo,tin:val('sc_tin'),commenced:val('sc_date'),category,desc:val('sc_desc'),address:val('sc_addr'),state,lga:val('sc_lga'),phone,email:val('sc_email'),bank:val('sc_bank'),account:val('sc_acct'),persons};
+  showLoading('Saving SCUML application...');
+  try{
+    let cacUrl=null;
+    const fc=document.getElementById('sc_doc_cac');
+    if(fc&&fc.files&&fc.files[0]) cacUrl=await uploadFile(fc.files[0],'scuml/'+Date.now());
+    await saveApplication('SCUML Registration',data,'Unpaid',cacUrl?{cacDoc:cacUrl}:{});
+    hideLoading();
+    document.getElementById('sc-form').style.display='none';
+    document.getElementById('sc-success').style.display='block';
+    openAdminWhatsApp('SCUML Registration',user?user.email:val('sc_email'),phone);
+  }catch(e){hideLoading();setAlert('sc-msg','❌ Error: '+e.message+'. Please try again or WhatsApp us.','danger');}
+}
+</script>
+</body></html>

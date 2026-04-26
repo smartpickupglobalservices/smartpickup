@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>All Services — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+</head>
+<body data-page="services">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="badge-row"><span class="h-badge hb-gold">📋 All Services</span><span class="h-badge hb-white">Pay Now or Later</span></div>
+    <h1>All SmartPickup Services</h1>
+    <p>Professional government registration, compliance, and logistics services across Nigeria. 100% online.</p>
+  </div>
+</div>
+<section style="background:var(--light);padding:3rem 5%">
+  <div class="container">
+    <div class="grid-auto">
+      <a href="apply-cac.html"         class="serv-card"><div class="serv-icon si-b">🏢</div><div class="card-title">Business Name (BN)</div><p class="card-desc">Sole proprietorship / partnership. CAC registration.</p><div class="card-cta">Apply · From ₦30,000</div></a>
+      <a href="apply-cac.html?type=ltd" class="serv-card"><div class="serv-icon si-b">🏛️</div><div class="card-title">Company Incorporation</div><p class="card-desc">LTD / PLC under CAMA. RC Number + MEMART.</p><div class="card-cta">Apply · From ₦65,000</div></a>
+      <a href="apply-cac.html?type=ngo" class="serv-card"><div class="serv-icon si-b">🤝</div><div class="card-title">Incorporated Trustees</div><p class="card-desc">NGO, charity, association, club. Oath required.</p><div class="card-cta">Apply · From ₦180,000</div></a>
+      <a href="apply-trademark.html"    class="serv-card"><div class="serv-icon si-g">™️</div><div class="card-title">Trademark Registration</div><p class="card-desc">Brand &amp; logo protection. NIPO/IPONL filing.</p><div class="card-cta">Apply · From ₦80,000</div></a>
+      <a href="apply-scuml.html"        class="serv-card"><div class="serv-icon si-g">🛡️</div><div class="card-title">SCUML Registration</div><p class="card-desc">AML compliance for DNFBPs. BVN + bank required.</p><div class="card-cta">Apply · From ₦40,000</div></a>
+      <a href="apply-nafdac.html"       class="serv-card"><div class="serv-icon si-k">💊</div><div class="card-title">NAFDAC Registration</div><p class="card-desc">Food, drugs, cosmetics via NAPAMS portal.</p><div class="card-cta">Apply · From ₦180,000</div></a>
+      <a href="apply-tin.html"          class="serv-card"><div class="serv-icon si-b">🔢</div><div class="card-title">TIN Registration (FIRS)</div><p class="card-desc">Tax Identification Number. Required for businesses.</p><div class="card-cta">Apply Now</div></a>
+      <a href="apply-nin.html"          class="serv-card"><div class="serv-icon si-b">🪪</div><div class="card-title">NIN Reprinting</div><p class="card-desc">Official NIMC reprint. Basic, Standard, Improved, Premium.</p><div class="card-cta">Apply Now</div></a>
+      <a href="apply-jamb.html"         class="serv-card"><div class="serv-icon si-b">📝</div><div class="card-title">JAMB Services</div><p class="card-desc">Result printing, Profile Code, Registration, Change of Institution.</p><div class="card-cta">Apply Now</div></a>
+      <a href="apply-logistics.html"    class="serv-card"><div class="serv-icon si-g">🚚</div><div class="card-title">Pickup &amp; Delivery</div><p class="card-desc">4-step booking. Parcel, errand, market runs. Ondo State.</p><div class="card-cta">Book Now</div></a>
+      <a href="apply-pins.html"         class="serv-card"><div class="serv-icon si-k">📋</div><div class="card-title">WAEC / NECO Pins</div><p class="card-desc">Instant exam result checker pins. WAEC, NECO, NABTEB.</p><div class="card-cta">Buy Pins</div></a>
+      <a href="apply-airtime.html"      class="serv-card"><div class="serv-icon si-b">📱</div><div class="card-title">Airtime &amp; Data</div><p class="card-desc">MTN, Airtel, Glo, 9Mobile. Instant delivery.</p><div class="card-cta">Top Up</div></a>
+      <a href="apply-annual.html"       class="serv-card"><div class="serv-icon si-g">📅</div><div class="card-title">Annual Returns &amp; Compliance</div><p class="card-desc">CAC annual returns, change of directors, company status reports.</p><div class="card-cta">Apply · From ₦15,000/yr</div></a>
+    </div>
+
+    <!-- ── GET A FREE QUOTE ── -->
+    <div id="quote" style="margin-top:3.5rem;background:#fff;border-radius:var(--rl);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden">
+      <div style="background:var(--primary);padding:2rem;text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:.3rem">📧 Get a Free Quote</div>
+        <div style="font-size:.85rem;color:rgba(255,255,255,.7)">Tell us what you need and we'll respond within 1 hour · Mon–Sat 8am–6pm</div>
+      </div>
+      <div style="padding:2rem">
+        <div id="quote-msg"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="fgroup" style="margin:0"><label class="flabel">Your Name *</label><input class="finput" id="q_name" placeholder="Full name"/></div>
+          <div class="fgroup" style="margin:0"><label class="flabel">Phone / WhatsApp *</label><input class="finput" id="q_phone" placeholder="08012345678"/></div>
+          <div class="fgroup" style="margin:0"><label class="flabel">Email Address</label><input class="finput" id="q_email" type="email" placeholder="your@email.com"/></div>
+          <div class="fgroup" style="margin:0"><label class="flabel">Service Needed *</label>
+            <select class="finput" id="q_service">
+              <option value="">-- Select a service --</option>
+              <option>Business Name Registration</option>
+              <option>Company Incorporation (LTD/PLC)</option>
+              <option>Incorporated Trustees (NGO)</option>
+              <option>Trademark Registration</option>
+              <option>SCUML Registration</option>
+              <option>NAFDAC Registration</option>
+              <option>TIN Registration</option>
+              <option>NIN Reprinting</option>
+              <option>Annual Returns &amp; Compliance</option>
+              <option>JAMB Services</option>
+              <option>Logistics / Pickup &amp; Delivery</option>
+              <option>Other (describe below)</option>
+            </select>
+          </div>
+        </div>
+        <div class="fgroup" style="margin-top:1rem"><label class="flabel">Additional Details / Questions</label><textarea class="finput" id="q_details" rows="3" placeholder="e.g. I need to register a business name in Ondo State. My company will sell electronics..."></textarea></div>
+        <div style="display:flex;gap:1rem;margin-top:1.2rem;flex-wrap:wrap">
+          <button class="btn btn-gold btn-lg" style="flex:1;min-width:160px" onclick="submitQuote()">📧 Send Quote Request</button>
+          <a href="https://wa.me/2347063545065?text=Hello%20SmartPickup%2C%20I%20need%20a%20quote%20for%20a%20service" target="_blank" class="btn btn-wa btn-lg" style="flex:1;min-width:160px">💬 Chat on WhatsApp</a>
+        </div>
+        <div style="margin-top:1rem;font-size:.78rem;color:var(--muted);text-align:center">✅ All prices are inclusive · Zero hidden charges · Free 15-min consultation before payment</div>
+      </div>
+    </div>
+
+    <!-- Pricing highlights -->
+    <div style="margin-top:2.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem">
+      <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);padding:1.4rem;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:.5rem">✅</div>
+        <div style="font-weight:800;color:var(--primary);margin-bottom:.3rem">All Govt Charges Included</div>
+        <div style="font-size:.8rem;color:var(--muted)">No surprise "processing fee" after payment</div>
+      </div>
+      <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);padding:1.4rem;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:.5rem">🕒</div>
+        <div style="font-weight:800;color:var(--primary);margin-bottom:.3rem">Free 15-Min Consultation</div>
+        <div style="font-size:.8rem;color:var(--muted)">We confirm exact cost before you pay anything</div>
+      </div>
+      <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);padding:1.4rem;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:.5rem">💳</div>
+        <div style="font-weight:800;color:var(--primary);margin-bottom:.3rem">Pay Now or Pay Later</div>
+        <div style="font-size:.8rem;color:var(--muted)">Submit application, pay when convenient</div>
+      </div>
+      <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);padding:1.4rem;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:.5rem">📱</div>
+        <div style="font-weight:800;color:var(--primary);margin-bottom:.3rem">100% Online Service</div>
+        <div style="font-size:.8rem;color:var(--muted)">No travel cost — handled from anywhere in Nigeria</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div id="footer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+async function submitQuote() {
+  const name    = (document.getElementById('q_name').value||'').trim();
+  const phone   = (document.getElementById('q_phone').value||'').trim();
+  const email   = (document.getElementById('q_email').value||'').trim();
+  const service = (document.getElementById('q_service').value||'').trim();
+  const details = (document.getElementById('q_details').value||'').trim();
+  const msgEl   = document.getElementById('quote-msg');
+  if (!name)    { msgEl.innerHTML='<div class="alert alert-danger">Please enter your name.</div>'; return; }
+  if (!phone)   { msgEl.innerHTML='<div class="alert alert-danger">Please enter your phone number.</div>'; return; }
+  if (!service) { msgEl.innerHTML='<div class="alert alert-danger">Please select a service.</div>'; return; }
+  showLoading('Sending your quote request...');
+  try {
+    await db.collection('quotes').add({
+      name, phone, email, service, details,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      status: 'new'
+    });
+    hideLoading();
+    msgEl.innerHTML = '<div class="alert alert-success">✅ Quote request sent! We will contact you within 1 hour on WhatsApp. Thank you, ' + name + '!</div>';
+    ['q_name','q_phone','q_email','q_details'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+    document.getElementById('q_service').value = '';
+    // Also open WhatsApp
+    const waMsg = encodeURIComponent('Hello SmartPickup, I just submitted a quote request for *' + service + '*. My name is ' + name + ' and my number is ' + phone + '.');
+    setTimeout(() => window.open('https://wa.me/2347063545065?text=' + waMsg, '_blank'), 1000);
+  } catch(e) {
+    hideLoading();
+    msgEl.innerHTML = '<div class="alert alert-danger">❌ Error: ' + e.message + '</div>';
+  }
+}
+</script>
+</body>
+</html>

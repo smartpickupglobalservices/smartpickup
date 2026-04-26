@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Book Logistics — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+</head>
+<body data-page="">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero" style="background:linear-gradient(135deg,#1a4a1a,#2d6e2d)">
+  <div class="page-hero-inner">
+    <div class="badge-row"><span class="h-badge hb-gold">🚚 Logistics</span><span class="h-badge hb-white">Ondo State Delivery</span></div>
+    <h1>Pickup &amp; Delivery Booking</h1>
+    <p>Book parcel delivery, errand runs, and market pickups across Akure, Akoko, and Ondo State in 4 easy steps.</p>
+  </div>
+</div>
+<div style="background:var(--light);padding:2.5rem 5% 4rem">
+  <div style="max-width:760px;margin:0 auto">
+    <!-- Step Bar -->
+    <div class="step-bar" style="margin-bottom:2rem">
+      <div class="step-item"><div class="step-dot active" id="sd1">1</div><span class="step-lbl active" id="sl1">Type</span></div>
+      <div class="step-line" id="sline1"></div>
+      <div class="step-item"><div class="step-dot" id="sd2">2</div><span class="step-lbl" id="sl2">Details</span></div>
+      <div class="step-line" id="sline2"></div>
+      <div class="step-item"><div class="step-dot" id="sd3">3</div><span class="step-lbl" id="sl3">Schedule</span></div>
+      <div class="step-line" id="sline3"></div>
+      <div class="step-item"><div class="step-dot" id="sd4">4</div><span class="step-lbl" id="sl4">Confirm</span></div>
+    </div>
+
+    <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);box-shadow:var(--shadow);padding:2rem">
+
+      <!-- STEP 1: Service Type -->
+      <div class="form-step active" id="step1">
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1.2rem">Step 1: Select Service Type</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem;margin-bottom:1.5rem">
+          <div onclick="selectType(this,'Parcel Delivery')" class="type-opt"><div style="font-size:2rem;margin-bottom:.3rem">📦</div><div style="font-weight:700;font-size:.87rem">Parcel Delivery</div><div style="font-size:.71rem;opacity:.7">Send packages</div></div>
+          <div onclick="selectType(this,'Errand Run')" class="type-opt"><div style="font-size:2rem;margin-bottom:.3rem">🛒</div><div style="font-weight:700;font-size:.87rem">Errand / Market Run</div><div style="font-size:.71rem;opacity:.7">Shopping, bills</div></div>
+          <div onclick="selectType(this,'Document Delivery')" class="type-opt"><div style="font-size:2rem;margin-bottom:.3rem">📄</div><div style="font-weight:700;font-size:.87rem">Document Delivery</div><div style="font-size:.71rem;opacity:.7">Files, certificates</div></div>
+          <div onclick="selectType(this,'Food Pickup')" class="type-opt"><div style="font-size:2rem;margin-bottom:.3rem">🍱</div><div style="font-weight:700;font-size:.87rem">Food Pickup</div><div style="font-size:.71rem;opacity:.7">Restaurant orders</div></div>
+          <div onclick="selectType(this,'Express Pickup')" class="type-opt"><div style="font-size:2rem;margin-bottom:.3rem">⚡</div><div style="font-weight:700;font-size:.87rem">Express Pickup</div><div style="font-size:.71rem;opacity:.7">Same-day urgent</div></div>
+          <div onclick="selectType(this,'Bulk/Business Delivery')" class="type-opt"><div style="font-size:2rem;margin-bottom:.3rem">🏪</div><div style="font-weight:700;font-size:.87rem">Bulk / Business</div><div style="font-size:.71sm;opacity:.7">Large items</div></div>
+        </div>
+        <div id="type-selected" style="display:none;background:var(--success-l);border:1.5px solid var(--success);border-radius:var(--r);padding:.75rem 1rem;margin-bottom:1rem;font-weight:700;color:var(--success)"></div>
+        <div class="step-nav"><div></div><button class="btn btn-primary" id="btn-next1" disabled onclick="goStep(2)">Next: Add Details →</button></div>
+      </div>
+
+      <!-- STEP 2: Details -->
+      <div class="form-step" id="step2">
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1.2rem">Step 2: Pickup &amp; Delivery Details</div>
+        <div id="logistic-type-banner" class="alert alert-info" style="margin-bottom:1rem"></div>
+        <div class="frow">
+          <div class="fgroup"><label class="flabel">Sender Name <span class="req">*</span></label><input type="text" class="finput" id="log_sender" placeholder="Your full name"/></div>
+          <div class="fgroup"><label class="flabel">Sender Phone <span class="req">*</span></label><input type="tel" class="finput" id="log_sphone" placeholder="+234..."/></div>
+        </div>
+        <div class="fgroup"><label class="flabel">Pickup Address <span class="req">*</span></label><input type="text" class="finput" id="log_pickup" placeholder="Full pickup address"/></div>
+        <div class="frow">
+          <div class="fgroup"><label class="flabel">Pickup Town/City <span class="req">*</span></label><input type="text" class="finput" id="log_pcity" placeholder="e.g. Akure"/></div>
+          <div class="fgroup"><label class="flabel">Pickup LGA</label><input type="text" class="finput" id="log_plga" placeholder="LGA"/></div>
+        </div>
+        <div class="fgroup"><label class="flabel">Delivery Address <span class="req">*</span></label><input type="text" class="finput" id="log_delivery" placeholder="Full delivery address"/></div>
+        <div class="frow">
+          <div class="fgroup"><label class="flabel">Receiver Name <span class="req">*</span></label><input type="text" class="finput" id="log_receiver" placeholder="Receiver name"/></div>
+          <div class="fgroup"><label class="flabel">Receiver Phone <span class="req">*</span></label><input type="tel" class="finput" id="log_rphone" placeholder="+234..."/></div>
+        </div>
+        <div class="fgroup"><label class="flabel">Item Description <span class="req">*</span></label><textarea class="ftextarea" id="log_item" placeholder="What are we picking up / delivering?"></textarea></div>
+        <div class="step-nav">
+          <button class="btn btn-outline" onclick="goStep(1)">← Back</button>
+          <button class="btn btn-primary" onclick="goStep(3)">Next: Schedule →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Schedule -->
+      <div class="form-step" id="step3">
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1.2rem">Step 3: Schedule &amp; Pricing</div>
+        <div class="frow">
+          <div class="fgroup"><label class="flabel">Pickup Date <span class="req">*</span></label><input type="date" class="finput" id="log_date"/></div>
+          <div class="fgroup"><label class="flabel">Preferred Time</label><select class="fselect" id="log_time"><option>Morning (8am–12pm)</option><option>Afternoon (12pm–4pm)</option><option>Evening (4pm–6pm)</option></select></div>
+        </div>
+        <div class="fgroup"><label class="flabel">Urgency Level</label>
+          <select class="fselect" id="log_urgency" onchange="updateLogPrice()">
+            <option value="standard">Standard (1–2 days) — Affordable</option>
+            <option value="express">Express (Same Day) — Premium Rate</option>
+          </select>
+        </div>
+        <div style="background:var(--info-l);border-radius:var(--r);padding:1.1rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem">
+          <div><div style="font-size:.8rem;font-weight:600;color:var(--muted)">Estimated Cost (Starting from)</div><div style="font-size:.74rem;color:var(--muted)">Final price confirmed after review</div></div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--primary)" id="log-price">₦1,500</div>
+        </div>
+        <div class="fgroup"><label class="flabel">Payment Method</label>
+          <select class="fselect" id="log_payment"><option>Pay on Delivery (Cash)</option><option>Bank Transfer (before pickup)</option><option>Opay / Mobile Transfer</option></select>
+        </div>
+        <div class="fgroup"><label class="flabel">Additional Notes</label><textarea class="ftextarea" style="min-height:70px" id="log_notes" placeholder="Any special instructions..."></textarea></div>
+        <div class="step-nav">
+          <button class="btn btn-outline" onclick="goStep(2)">← Back</button>
+          <button class="btn btn-primary" onclick="goStep(4)">Next: Confirm →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Confirm -->
+      <div class="form-step" id="step4">
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1.2rem">Step 4: Confirm &amp; Submit</div>
+        <div id="booking-summary" style="background:var(--light);border-radius:var(--r);padding:1.2rem;margin-bottom:1.5rem;font-size:.85rem;line-height:1.9"></div>
+        <div class="alert alert-info">✅ Once submitted, we will call/WhatsApp you within 30 minutes to confirm pickup details.</div>
+        <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+          <button class="btn btn-outline" onclick="goStep(3)" style="flex:0">← Back</button>
+          <button class="btn btn-success btn-lg" onclick="submitLogistics()" style="flex:1">🚚 Submit Booking Request</button>
+        </div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div id="logistics-success" style="display:none;text-align:center;padding:2.5rem 0">
+        <div style="font-size:3.5rem;margin-bottom:.8rem">🎉</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--primary);margin-bottom:.5rem">Booking Submitted!</h3>
+        <p style="color:var(--muted);margin-bottom:1.5rem">Saved to cloud. Our team will call you within 30 minutes to confirm.</p>
+        <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+          <a href="https://wa.me/2347063545065" target="_blank" class="btn btn-wa btn-lg">💬 Track on WhatsApp</a>
+          <a href="dashboard.html" class="btn btn-primary">📊 My Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="footer"></div>
+<style>
+.type-opt { border:2px solid var(--border);background:#fff;border-radius:var(--r);padding:1rem;text-align:center;cursor:pointer;transition:all .2s;color:var(--primary); }
+.type-opt:hover { border-color:var(--gold); }
+.type-opt.selected { border-color:var(--primary);background:var(--info-l); }
+</style>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+let _logType = '';
+
+function selectType(el, t) {
+  document.querySelectorAll('.type-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  _logType = t;
+  const sel = document.getElementById('type-selected');
+  sel.style.display = 'block';
+  sel.textContent = '✅ Selected: ' + t;
+  document.getElementById('btn-next1').disabled = false;
+}
+
+function goStep(n) {
+  if (n === 4) buildSummary();
+  const steps = document.querySelectorAll('.form-step');
+  steps.forEach((s, i) => s.classList.toggle('active', i + 1 === n));
+  // Update step indicators manually
+  for (let i = 1; i <= 4; i++) {
+    const dot = document.getElementById('sd' + i);
+    const lbl = document.getElementById('sl' + i);
+    dot.classList.remove('active','done');
+    lbl.classList.remove('active');
+    if (i < n)  dot.classList.add('done');
+    if (i === n){ dot.classList.add('active'); lbl.classList.add('active'); }
+    const line = document.getElementById('sline' + i);
+    if (line) line.classList.toggle('done', i < n);
+  }
+  document.getElementById('logistic-type-banner').textContent = 'Service: ' + _logType;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateLogPrice() {
+  const express = document.getElementById('log_urgency')?.value === 'express';
+  document.getElementById('log-price').textContent = express ? '₦3,000' : '₦1,500';
+}
+
+function buildSummary() {
+  const summary = document.getElementById('booking-summary');
+  summary.innerHTML = `
+    <strong>Type:</strong> ${_logType}<br/>
+    <strong>Sender:</strong> ${val('log_sender')} · ${val('log_sphone')}<br/>
+    <strong>Pickup:</strong> ${val('log_pickup')}, ${val('log_pcity')}<br/>
+    <strong>Delivery:</strong> ${val('log_delivery')}<br/>
+    <strong>Receiver:</strong> ${val('log_receiver')} · ${val('log_rphone')}<br/>
+    <strong>Item:</strong> ${val('log_item')}<br/>
+    <strong>Date:</strong> ${val('log_date')} · ${val('log_time')}<br/>
+    <strong>Payment:</strong> ${val('log_payment')}`;
+}
+
+async function submitLogistics() {
+  const user = auth.currentUser;
+  const data = {
+    serviceType: _logType,
+    sender: val('log_sender'), senderPhone: val('log_sphone'),
+    pickupAddress: val('log_pickup'), pickupCity: val('log_pcity'),
+    deliveryAddress: val('log_delivery'),
+    receiver: val('log_receiver'), receiverPhone: val('log_rphone'),
+    item: val('log_item'), date: val('log_date'), time: val('log_time'),
+    urgency: val('log_urgency'), payment: val('log_payment'), notes: val('log_notes'),
+    phone: val('log_sphone'),
+    userEmail: user ? user.email : 'guest'
+  };
+  if (!data.sender || !data.pickupAddress || !data.deliveryAddress) { showToast('Please fill sender and address fields.', 'error'); return; }
+  showLoading('Saving booking...');
+  try {
+    await saveApplication('Pickup & Delivery - ' + _logType, data, 'Unpaid');
+    hideLoading();
+    document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+    document.getElementById('logistics-success').style.display = 'block';
+    openAdminWhatsApp('Logistics - ' + _logType, data.userEmail, data.senderPhone);
+  } catch(e) { hideLoading(); showToast('Error: '+e.message, 'error'); }
+}
+</script>
+</body>
+</html>

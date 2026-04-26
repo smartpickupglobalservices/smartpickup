@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>JAMB Services — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+</head>
+<body data-page="">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero"><div class="page-hero-inner"><h1>📝 JAMB Services</h1><p>JAMB Registration · Result Checker · Change of Course / Institution · Mock Registration</p></div></div>
+<section class="section"><div class="container" style="max-width:700px">
+  <div id="jamb-success" style="display:none" class="alert alert-success" style="font-size:1rem;padding:2rem;text-align:center">
+    ✅ <strong>Request received!</strong> We will process your JAMB service and contact you within 2 hours.<br/><br/>
+    <a href="dashboard.html" class="btn btn-primary" style="margin-top:.8rem">📊 Track on Dashboard</a>
+  </div>
+  <div id="jamb-form" class="card" style="padding:2rem">
+    <div class="sec-title">📝 JAMB Service Request</div>
+    <div id="jamb-msg"></div>
+    <div class="fgroup"><label class="flabel">JAMB Service *</label>
+      <select class="fselect" id="jb_type">
+        <option value="">— Select service —</option>
+        <option value="New Registration">New JAMB Registration (UTME)</option>
+        <option value="Direct Entry">Direct Entry (DE) Registration</option>
+        <option value="Result Checker">Result Checker PIN</option>
+        <option value="Change of Course">Change of Course / Institution</option>
+        <option value="Mock Registration">Mock Examination Registration</option>
+        <option value="Data Correction">Data Correction / NIN Linkage</option>
+        <option value="Admission Letter">Admission Letter / Acceptance</option>
+        <option value="Regularization">Regularization</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div class="fgroup" style="margin:0"><label class="flabel">Full Name *</label><input class="finput" id="jb_name" placeholder="Surname First Name Othername"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">WhatsApp Number *</label><input class="finput" id="jb_phone" placeholder="08012345678"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Email Address</label><input class="finput" id="jb_email" type="email" placeholder="your@email.com"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Date of Birth</label><input class="finput" id="jb_dob" type="date"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">NIN Number *</label><input class="finput" id="jb_nin" placeholder="11-digit NIN" maxlength="11"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">State of Origin *</label><input class="finput" id="jb_state" placeholder="e.g. Ondo State"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Preferred Course</label><input class="finput" id="jb_course" placeholder="e.g. Law, Medicine, Engineering"/></div>
+      <div class="fgroup" style="margin:0"><label class="flabel">Preferred Institution</label><input class="finput" id="jb_school" placeholder="e.g. University of Lagos"/></div>
+    </div>
+    <div class="fgroup"><label class="flabel">Additional Instructions / Notes</label><textarea class="finput" id="jb_notes" rows="2" placeholder="Any special instructions..."></textarea></div>
+    <div class="fgroup"><label class="flabel">Upload Relevant Document (optional)</label><input type="file" id="jb_doc" accept=".pdf,.jpg,.jpeg,.png"/></div>
+    <div class="pay-box">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:.3rem">Service Fee</div>
+      <div class="pay-amount">₦3,500 – ₦8,000</div>
+      <div style="font-size:.73rem;color:var(--muted);margin-top:.2rem">Exact amount confirmed before payment</div>
+    </div>
+    <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+      <button class="btn btn-primary btn-lg" onclick="submitJAMB()" style="flex:1">📋 Submit Request</button>
+      <a href="https://wa.me/2347063545065?text=Hello%20SmartPickup%2C%20I%20need%20JAMB%20services" target="_blank" class="btn btn-wa btn-lg" style="flex:1">💬 WhatsApp Us</a>
+    </div>
+  </div>
+</div></section>
+<div id="footer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+async function submitJAMB(){
+  const type=val('jb_type'),name=val('jb_name'),phone=val('jb_phone'),nin=val('jb_nin'),state=val('jb_state');
+  if(!type){setAlert('jamb-msg','❌ Please select a service.','danger');return;}
+  if(!name||!phone||!nin){setAlert('jamb-msg','❌ Please fill Name, Phone, and NIN.','danger');return;}
+  const user=auth.currentUser;
+  const data={serviceType:type,name,phone,email:val('jb_email'),dob:val('jb_dob'),nin,state,course:val('jb_course'),school:val('jb_school'),notes:val('jb_notes')};
+  showLoading('Submitting JAMB request...');
+  try{
+    let fileUrl=null;
+    const f=document.getElementById('jb_doc');
+    if(f&&f.files&&f.files[0]) fileUrl=await uploadFile(f.files[0],'jamb/'+Date.now());
+    await saveApplication('JAMB - '+type,data,'Unpaid',fileUrl?{doc:fileUrl}:{});
+    hideLoading();
+    document.getElementById('jamb-form').style.display='none';
+    document.getElementById('jamb-success').style.display='block';
+    openAdminWhatsApp('JAMB - '+type,user?user.email:val('jb_email'),phone);
+  }catch(e){hideLoading();setAlert('jamb-msg','❌ Error: '+e.message,'danger');}
+}
+</script>
+</body></html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Contact — SmartPickup Global Services</title>
+<link rel="icon" href="logo.png"/><link rel="stylesheet" href="style.css"/>
+</head>
+<body data-page="contact">
+<div class="topbar" id="topbar"></div><div id="navbar"></div><div class="mob-nav" id="mobNav"></div>
+<div class="page-hero"><div class="page-hero-inner"><h1>Contact Us</h1><p>Free consultation on all services. We respond within 1 hour on WhatsApp.</p></div></div>
+<section style="background:var(--light);padding:4rem 5%">
+  <div class="container">
+    <div class="grid-2" style="gap:3rem;align-items:start">
+      <div>
+        <div style="font-weight:800;color:var(--primary);font-size:1.1rem;margin-bottom:1.5rem;font-family:'Playfair Display',serif">Get In Touch</div>
+        <div style="display:flex;flex-direction:column;gap:.8rem">
+          <div class="cinfo"><div class="cinfo-icon">🏢</div><div><div class="cinfo-label">Headquarters</div><div class="cinfo-val">No. 3 Oshokoti Layout, Akure, Ondo State</div></div></div>
+          <div class="cinfo"><div class="cinfo-icon">📍</div><div><div class="cinfo-label">Branch Office</div><div class="cinfo-val">Ipe Akoko, Akoko South East, Ondo State</div></div></div>
+          <div class="cinfo"><div class="cinfo-icon">📞</div><div><div class="cinfo-label">Phone / WhatsApp</div><div class="cinfo-val"><a href="tel:+2347063545065">+234 706 354 5065</a></div></div></div>
+          <div class="cinfo"><div class="cinfo-icon">✉️</div><div><div class="cinfo-label">Email</div><div class="cinfo-val"><a href="mailto:smartpickupglobalservices@gmail.com">smartpickupglobalservices@gmail.com</a></div></div></div>
+          <div class="cinfo"><div class="cinfo-icon">🆔</div><div><div class="cinfo-label">CAC Registration</div><div class="cinfo-val">BN No. 3785339 · Proprietor: Adejube John Olusola</div></div></div>
+          <div class="cinfo"><div class="cinfo-icon">🕒</div><div><div class="cinfo-label">Working Hours</div><div class="cinfo-val">Mon – Sat: 8:00am – 6:00pm · Online: Daily</div></div></div>
+        </div>
+        <a href="https://wa.me/2347063545065" target="_blank" class="btn btn-wa btn-lg" style="margin-top:1.5rem;width:100%">💬 Chat on WhatsApp Now</a>
+      </div>
+      <div style="background:#fff;border-radius:var(--rl);border:1px solid var(--border);box-shadow:var(--shadow-lg);padding:2rem">
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:.25rem">Send a Message</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:1.5rem">We respond within 1 hour on business days.</div>
+        <div id="ctc-msg" style="display:none"></div>
+        <div class="frow"><div class="fgroup"><label class="flabel">Full Name</label><input type="text" class="finput" id="ctcName" placeholder="Your name"/></div><div class="fgroup"><label class="flabel">Phone</label><input type="tel" class="finput" id="ctcPhone" placeholder="+234..."/></div></div>
+        <div class="fgroup"><label class="flabel">Email</label><input type="email" class="finput" id="ctcEmail" placeholder="your@email.com"/></div>
+        <div class="fgroup"><label class="flabel">Service Interested In</label>
+          <select class="fselect" id="ctcService">
+            <option>Business Name Registration</option><option>Company Incorporation</option><option>NGO / Incorporated Trustees</option>
+            <option>Trademark</option><option>SCUML</option><option>NAFDAC</option><option>TIN Registration</option>
+            <option>NIN Reprinting</option><option>JAMB Services</option><option>Pickup &amp; Delivery</option><option>Other / Consultation</option>
+          </select>
+        </div>
+        <div class="fgroup"><label class="flabel">Message</label><textarea class="ftextarea" id="ctcMessage" placeholder="Tell us about your request..."></textarea></div>
+        <button class="btn btn-gold btn-block btn-lg" onclick="submitContact()">🚀 Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+<div id="footer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script><script src="components.js"></script>
+<script>
+async function submitContact() {
+  const name=val('ctcName'), phone=val('ctcPhone'), email=val('ctcEmail'), service=val('ctcService'), message=val('ctcMessage');
+  const msg=document.getElementById('ctc-msg');
+  if (!name||!phone||!message) { setAlert('ctc-msg','❌ Please fill name, phone, and message.','danger'); return; }
+  showLoading('Sending...');
+  try {
+    await db.collection('contacts').add({ name, phone, email, service, message, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+    hideLoading();
+    setAlert('ctc-msg','✅ Message sent! We will contact you within 1 hour on WhatsApp.','success');
+    openAdminWhatsApp('General Enquiry - ' + service, email||'N/A', phone);
+  } catch(e) { hideLoading(); setAlert('ctc-msg','❌ Error: '+e.message,'danger'); }
+}
+</script>
+</body>
+</html>
